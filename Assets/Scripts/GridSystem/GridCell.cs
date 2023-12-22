@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridCell
@@ -26,5 +27,20 @@ public class GridCell
         float zPosition = _gridManager.CenterPosition.y + Y * _gridManager.CellSize + _gridManager.CellSize / 2f - gridHeight / 2f;
 
         return new Vector3(xPosition, 0f, zPosition);
+    }
+
+    public List<Vector3> GetWorldCorners()
+    {
+        float halfSize = _gridManager.CellSize / 2f;
+
+        List<Vector3> corners = new()
+        {
+            GetWorldPosition() + new Vector3(-halfSize, 0f, -halfSize),
+            GetWorldPosition() + new Vector3(halfSize, 0f, -halfSize),
+            GetWorldPosition() + new Vector3(-halfSize, 0f, halfSize),
+            GetWorldPosition() + new Vector3(halfSize, 0f, halfSize),
+        };
+
+        return corners;
     }
 }
