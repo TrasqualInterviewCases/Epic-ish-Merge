@@ -92,8 +92,8 @@ public class GridMeshGenerator : MonoBehaviour
         {
             triangulationData.Add(new DelaunayTriangulation.Vertex(new Vector2(points[i].x, points[i].z), i));
         }
-
-        DelaunayTriangulation.Triangulation triangulation = new DelaunayTriangulation.Triangulation(triangulationData);
+        float maxEdgeLenght = Mathf.Sqrt(Mathf.Pow(_gridManager.CellSize * 2f, 2f) + Mathf.Pow(_gridManager.CellSize, 2f));
+        DelaunayTriangulation.Triangulation triangulation = new DelaunayTriangulation.Triangulation(triangulationData, maxEdgeLenght);
 
         foreach (DelaunayTriangulation.Triangle triangle in triangulation.triangles)
         {

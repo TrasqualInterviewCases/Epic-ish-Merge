@@ -77,7 +77,7 @@ namespace DelaunayTriangulation
         }
 
         // Make triangulation from set of points
-        public Triangulation(List<Vertex> points) : this()
+        public Triangulation(List<Vertex> points, float maxEdgeLength) : this()
         {
             if (points.Count < 3)
             {
@@ -185,7 +185,7 @@ namespace DelaunayTriangulation
                 isSuper |= triangulation[i].Contains(super2);
 
                 // If so, remove triangle from triangulation
-                if (isSuper)
+                if (isSuper || triangulation[i].edge0.Length() > maxEdgeLength || triangulation[i].edge1.Length() > maxEdgeLength || triangulation[i].edge2.Length() > maxEdgeLength)
                 {
                     triangulation.RemoveAt(i);
                 }

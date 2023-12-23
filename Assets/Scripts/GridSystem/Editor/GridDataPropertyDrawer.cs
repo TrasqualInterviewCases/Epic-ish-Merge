@@ -56,7 +56,7 @@ public class GridDataPropertyDrawer : PropertyDrawer
 
                 if (enumElement.enumValueIndex == 0)
                 {
-                    enumElement.enumValueIndex = 1;
+                    enumElement.enumValueIndex = 2;
                 }
 
                 enumElement.enumValueIndex = (int)(GridCellState)(EditorGUI.EnumPopup(newPosition, (GridCellState)enumElement.enumValueIndex));
