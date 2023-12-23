@@ -12,10 +12,14 @@ namespace Gameplay.GridSystem
 
         public Vector2Int Index => new Vector2Int(X, Y);
 
-        public GridCell(int x, int y, GridManager gridManager)
+        public GridCellState State { get; private set; }
+
+        public GridCell(int x, int y, GridCellState state, GridManager gridManager)
         {
             X = x;
             Y = y;
+
+            AddState(state);
 
             _gridManager = gridManager;
         }
@@ -36,14 +40,34 @@ namespace Gameplay.GridSystem
             float halfSize = _gridManager.CellSize / 2f;
 
             List<Vector3> corners = new()
-        {
+            {
             GetWorldPosition() + new Vector3(-halfSize, 0f, -halfSize),
             GetWorldPosition() + new Vector3(halfSize, 0f, -halfSize),
             GetWorldPosition() + new Vector3(-halfSize, 0f, halfSize),
             GetWorldPosition() + new Vector3(halfSize, 0f, halfSize),
-        };
+            };
 
             return corners;
+        }
+
+        public void AddState(GridCellState state)
+        {
+            if ((State & state) == state)
+            {
+                return;
+            }
+
+            State |= state;
+        }
+
+        public void RemoveState(GridCellState state) 
+        {
+            if((State & state) != state)
+            {
+                return;
+            }
+
+            State &= ~state;
         }
     }
 }

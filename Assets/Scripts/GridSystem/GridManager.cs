@@ -31,7 +31,7 @@ namespace Gameplay.GridSystem
             {
                 for (int j = 0; j < Height; j++)
                 {
-                    Cells[i, j] = new GridCell(i, j, this);
+                    Cells[i, j] = new GridCell(i, j, GridCellState.Active, this);
                 }
             }
 

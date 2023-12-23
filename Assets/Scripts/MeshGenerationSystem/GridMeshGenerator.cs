@@ -47,7 +47,14 @@ public class GridMeshGenerator : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                vertices.AddRange(_gridManager.Cells[i, j].GetWorldCorners());
+                GridCell currentCell = _gridManager.Cells[i, j];
+
+                if ((currentCell.State & GridCellState.InActive) != 0)
+                {
+                    continue;
+                }
+
+                vertices.AddRange(currentCell.GetWorldCorners());
             }
         }
 
