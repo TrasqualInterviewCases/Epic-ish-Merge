@@ -1,5 +1,9 @@
+using Gameplay.GridSystem;
 
-public class GridGeneratedEvent
+namespace Utilities.Events
 {
-    public GridManager GridManager;
+    public class GridGeneratedEvent
+    {
+        public GridManager GridManager;
+    }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Utilities.Events
 {
-    [DefaultExecutionOrder(-10)]
+    [DefaultExecutionOrder(-100)]
     public class EventManager : Singleton<EventManager>
     {
         private Dictionary<Type, List<Action<object>>> _eventListeners = new();
