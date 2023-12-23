@@ -77,7 +77,10 @@ public class GridMeshGenerator : MonoBehaviour
 
         rend.material = _checkerMat;
         _checkerMat.mainTextureScale = Vector3.one / (_gridManager.CellSize * 2f);
-        _checkerMat.mainTextureOffset = new Vector2(0.25f, 0.25f);
+
+        float xOffset = _gridManager.Width % 2 == 0 ? 0 : 0.25f;
+        float yOffset = _gridManager.Height % 2 == 0 ? 0 : 0.25f;
+        _checkerMat.mainTextureOffset = new Vector2(xOffset, yOffset);
     }
 
     private void SetTriangles(Vector3[] points, Mesh mesh)

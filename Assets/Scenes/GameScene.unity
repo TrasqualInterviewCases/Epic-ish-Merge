@@ -543,6 +543,7 @@ GameObject:
   - component: {fileID: 1284546594}
   - component: {fileID: 1284546593}
   - component: {fileID: 1284546592}
+  - component: {fileID: 1284546595}
   - component: {fileID: 1284546591}
   - component: {fileID: 1284546590}
   m_Layer: 0
@@ -601,6 +602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <InputManager>k__BackingField: {fileID: 1284546590}
+  <LevelManager>k__BackingField: {fileID: 1284546595}
   <GridManager>k__BackingField: {fileID: 1284546591}
 --- !u!4 &1284546594
 Transform:
@@ -617,6 +619,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1284546595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284546589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9774b99bb1aa8084ab48415ef305d996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GridData:
+    Width: 5
+    Height: 6
+    CellSize: 1
+    Center: {x: 0, y: 0, z: 0}
+    Columns:
+    - Row: 0100000002000000020000000100000001000000
+    - Row: 0200000002000000020000000200000002000000
+    - Row: 0200000002000000020000000200000002000000
+    - Row: 0200000002000000020000000200000002000000
+    - Row: 0100000002000000020000000200000002000000
+    - Row: 0100000002000000020000000200000002000000
 --- !u!1 &1771955964
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,7 +687,7 @@ GameObject:
   - component: {fileID: 1850853544}
   - component: {fileID: 1850853543}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

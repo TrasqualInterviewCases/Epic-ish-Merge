@@ -1,3 +1,4 @@
+using Gameplay.ServiceSystem;
 using UnityEngine;
 using Utilities.Events;
 
@@ -18,8 +19,18 @@ namespace Gameplay.GridSystem
 
         public GridCell[,] Cells { get; private set; }
 
-        private void Awake()
+        private Column[] _columns;
+
+        private void Start()
         {
+            GridData gridData = ServiceProvider.Instance.LevelManager.GridData;
+
+            Width = gridData.Width;
+            Height = gridData.Height;
+            CellSize = gridData.CellSize;
+            CenterPosition = gridData.Center;
+            _columns = gridData.Columns;
+
             GenerateGrid();
         }
 
@@ -31,7 +42,7 @@ namespace Gameplay.GridSystem
             {
                 for (int j = 0; j < Height; j++)
                 {
-                    Cells[i, j] = new GridCell(i, j, GridCellState.Active, this);
+                    Cells[i, j] = new GridCell(i, j, _columns[j].Row[i], this);
                 }
             }
 

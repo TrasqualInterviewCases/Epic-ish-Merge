@@ -1,5 +1,8 @@
+using System;
+
 namespace Gameplay.GridSystem
 {
+    [Flags]
     public enum GridCellState
     {
         None = 0,
