@@ -27,4 +27,16 @@ public class MergeableFactory : MonoBehaviour
     {
         return _mergeableDatas.FirstOrDefault(x => x.MergeType == type && x.Level == level);
     }
+
+    public MergeableItem GetRandomMergeable()
+    {
+        int randomIndex = Random.Range(0, _mergeableDatas.Length);
+        MergeableDataSO mergeableData = _mergeableDatas[randomIndex];
+
+        MergeableItem mergeable = Instantiate(_mergeableItemPrefab);
+        mergeable.SetData(mergeableData);
+        mergeable.Init();
+
+        return mergeable;
+    }
 }

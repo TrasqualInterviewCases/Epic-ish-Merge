@@ -85,7 +85,7 @@ namespace Gameplay.GridSystem
 
         public bool CanAcceptItem()
         {
-            if ((State & GridCellState.Empty) == GridCellState.Empty)
+            if ((State & GridCellState.Empty) != 0)
             {
                 return true;
             }

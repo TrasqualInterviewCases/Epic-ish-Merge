@@ -10,5 +10,6 @@ namespace Gameplay.ServiceSystem
         [field: SerializeField] public InputManager InputManager { get; private set; }
         [field: SerializeField] public LevelManager LevelManager { get; private set; }
         [field: SerializeField] public GridManager GridManager { get; private set; }
+        [field: SerializeField] public MergeableFactory MergeableFactory { get; private set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Gameplay.MergeableSystem
 
         private GameObject _visual;
 
-        private void Awake()
+        public void Init()
         {
             _visual = Instantiate(MergeableData.ItemPrefab, transform.position, transform.rotation, transform);
         }
@@ -38,6 +38,8 @@ namespace Gameplay.MergeableSystem
 
         public override void SetData(PlaceableItemDataSO mergeableData)
         {
+            base.SetData(mergeableData);
+
             MergeableData = mergeableData as MergeableDataSO;
         }
     }

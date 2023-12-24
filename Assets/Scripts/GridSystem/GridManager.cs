@@ -98,21 +98,57 @@ namespace Gameplay.GridSystem
         {
             occupiedCells.Clear();
 
+            if (item.Data.PlacementMap == null || item.Data.PlacementMap.Count <= 0)
+            {
+                if (cell.CanAcceptItem())
+                {
+                    cell.AcceptItem(item);
+                    occupiedCells.Add(cell);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             for (int i = 0; i < item.Data.PlacementMap.Count; i++)
             {
                 Vector2Int testedCellIndex = cell.Index + item.Data.PlacementMap[i];
                 if (!CanCellAtIndexAcceptItem(testedCellIndex))
                 {
+                    Debug.Log("Cell can NOT accept item");
+                    foreach (GridCell occupiedCell in occupiedCells)
+                    {
+                        occupiedCell.TryRemoveItem(item);
+                    }
                     occupiedCells.Clear();
                     return false;
                 }
                 else
                 {
                     occupiedCells.Add(Cells[testedCellIndex.x, testedCellIndex.y]);
+                    Debug.Log("Cell can accept item");
                 }
             }
 
             return true;
+        }
+
+        public GridCell GetRandomActiveCell()
+        {
+            int randX = Random.Range(0, Width);
+            int randY = Random.Range(0, Height);
+
+            GridCell randomCell = Cells[randX, randY];
+            if ((randomCell.State & GridCellState.Active) != 0)
+            {
+                return randomCell;
+            }
+            else
+            {
+                return GetRandomActiveCell();
+            }
         }
     }
 }
