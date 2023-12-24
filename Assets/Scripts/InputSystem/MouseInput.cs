@@ -13,7 +13,7 @@ namespace Gameplay.InputSystem
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                OnTapUp?.Invoke();
+                OnTapUp?.Invoke(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1f));
             }
             else if (Input.GetMouseButton(0))
             {

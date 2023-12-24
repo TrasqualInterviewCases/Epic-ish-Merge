@@ -1,3 +1,4 @@
+using Gameplay.MovementSystem;
 using Gameplay.PlaceableSystem;
 using System;
 using System.Collections.Generic;
@@ -77,6 +78,11 @@ namespace Gameplay.GridSystem
             State &= ~state;
         }
 
+        private bool HasMoveableItem()
+        {
+            return _items.Any(x => x is IMoveable);
+        }
+
         public bool CanAcceptItem()
         {
             if ((State & GridCellState.Empty) == GridCellState.Empty)
@@ -106,9 +112,21 @@ namespace Gameplay.GridSystem
             RemoveState(item.Data.PlacementType.ConvertToGridCellState());
         }
 
+        public bool TryGetItem(out PlaceableItem item)
+        {
+            if (HasMoveableItem())
+            {
+                item = GetPlacedItem();
+                return true;
+            }
+
+            item = null;
+            return false;
+        }
+
         public PlaceableItem GetPlacedItem()
         {
-            return _items.FirstOrDefault(x => x.Data.PlacementType == PlacementType.Filler);
+            return _items.FirstOrDefault(x => x is IMoveable);
         }
 
         public void SelectCell()

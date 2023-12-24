@@ -21,6 +21,8 @@ namespace Gameplay.GridSystem
 
         public GridCell[,] Cells { get; private set; }
 
+        public Plane Plane;
+
         private Column[] _columns;
 
         private void Start()
@@ -32,6 +34,7 @@ namespace Gameplay.GridSystem
             CellSize = gridData.CellSize;
             CenterPosition = gridData.Center;
             _columns = gridData.Columns;
+            Plane = new Plane(Vector3.up, CenterPosition);
 
             GenerateGrid();
         }
@@ -51,16 +54,19 @@ namespace Gameplay.GridSystem
             EventManager.Instance.TriggerEvent<GridGeneratedEvent>(new GridGeneratedEvent { GridManager = this });
         }
 
-        public GridCell GetCellFromPosition(Vector3 position)
+        public bool TryGetCellFromPosition(Vector3 position, out GridCell cell)
         {
             int x = Mathf.FloorToInt((position.x - OriginPosition.x) / CellSize);
             int y = Mathf.FloorToInt((position.z - OriginPosition.z) / CellSize);
 
             if (x >= 0 && y >= 0 && x < Width && y < Height)
             {
-                return Cells[x, y];
+                cell = Cells[x, y];
+                return true;
             }
-            return null;
+
+            cell = null;
+            return false;
         }
 
         public bool CanCellAtIndexAcceptItem(Vector2Int cellIndex)

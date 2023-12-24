@@ -20,7 +20,7 @@ namespace Gameplay.InputSystem
                 }
                 else if (firstTouch.phase == TouchPhase.Ended)
                 {
-                    OnTapUp?.Invoke();
+                    OnTapUp?.Invoke(new Vector3(firstTouch.position.x, firstTouch.position.y, 1f));
                 }
             }
         }

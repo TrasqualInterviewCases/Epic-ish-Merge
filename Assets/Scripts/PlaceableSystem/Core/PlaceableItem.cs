@@ -14,7 +14,9 @@ namespace Gameplay.PlaceableSystem
         public PlaceableItemDataSO Data { get; protected set; }
         public List<GridCell> OccupiedCells { get; protected set; } = new();
 
-        protected GridCell _lastPlacedInCell;
+        public Vector3 LastKnownPosition { get; protected set; }
+
+        private GridCell LastPlacedInCell;
 
         protected GridManager _gridManager;
 
@@ -23,13 +25,18 @@ namespace Gameplay.PlaceableSystem
             _gridManager = ServiceProvider.Instance.GridManager;
         }
 
-        public void TryPlaceInCell(GridCell cell)
+        private void Start()
+        {
+            LastKnownPosition = transform.position;
+        }
+
+        public bool TryPlaceInCell(GridCell cell)
         {
             if (_gridManager.TryPlaceItem(this, cell, OccupiedCells))
             {
-                if (_lastPlacedInCell != null)
+                if (LastPlacedInCell != null)
                 {
-                    _lastPlacedInCell.TryRemoveItem(this);
+                    LastPlacedInCell.TryRemoveItem(this);
 
                     if (OccupiedCells != null && OccupiedCells.Count > 0)
                     {
@@ -40,13 +47,17 @@ namespace Gameplay.PlaceableSystem
                     }
                 }
 
-                _lastPlacedInCell = cell;
+                LastPlacedInCell = cell;
+
+                LastKnownPosition = LastPlacedInCell.GetWorldPosition();
 
                 OnPlacementSuccess?.Invoke(this);
+                return true;
             }
             else
             {
                 OnPlacementFail?.Invoke(this);
+                return false;
             }
         }
     }
