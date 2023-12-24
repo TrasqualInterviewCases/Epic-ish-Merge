@@ -19,6 +19,11 @@ namespace Gameplay.InputSystem
             {
                 OnTapHold?.Invoke(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1f));
             }
+
+            if(Input.mouseScrollDelta.y != 0)
+            {
+                OnScroll?.Invoke(Input.mouseScrollDelta.y);
+            }
         }
 
         public override bool IsPointerOverUI()

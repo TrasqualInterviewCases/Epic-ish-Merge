@@ -8,6 +8,7 @@ namespace Gameplay.InputSystem
         public Action<Vector3> OnTapDown;
         public Action OnTapUp;
         public Action<Vector3> OnTapHold;
+        public Action<float> OnScroll;
         public abstract bool IsPointerOverUI();
     }
 }
