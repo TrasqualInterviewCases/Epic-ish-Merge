@@ -50,7 +50,6 @@ namespace Gameplay.PlaceableSystem
 
                 LastKnownPosition = LastPlacedInCell.GetWorldPosition();
                 transform.position = LastKnownPosition;
-
                 OnPlacementSuccess?.Invoke(this);
                 return true;
             }

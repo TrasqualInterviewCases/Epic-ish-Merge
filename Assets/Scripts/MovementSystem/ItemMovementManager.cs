@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Gameplay.MovementSystem
 {
-    public class ObjectMovementManager : MonoBehaviour
+    public class ItemMovementManager : MonoBehaviour
     {
         private GridManager _gridManager;
 
@@ -74,7 +74,7 @@ namespace Gameplay.MovementSystem
             {
                 GridCell cell = GetCellFromTapPosition(position);
                 Vector3 targetPosition;
-                if (cell != null)
+                if (cell != null && (cell.State & GridCellState.InActive) != GridCellState.InActive)
                 {
                     targetPosition = cell.GetWorldPosition();
                 }
@@ -106,14 +106,33 @@ namespace Gameplay.MovementSystem
                 {
                     if (!_draggedItem.TryPlaceInCell(cell))
                     {
-                        if (_draggedItem.LastKnownPosition != null)
-                        {
-                            ((IMoveable)_draggedItem).Move(_draggedItem.LastKnownPosition);
-                            _draggedItem = null;
-                        }
+                        ((IMoveable)_draggedItem).Move(_draggedItem.LastKnownPosition);
                     }
+                    _draggedItem = null;
+                }
+                else
+                {
+                    ((IMoveable)_draggedItem).Move(_draggedItem.LastKnownPosition);
+                    _draggedItem = null;
                 }
             }
+        }
+
+        public bool IsPointerOverPlaceable(Vector3 position)
+        {
+            GridCell cell = GetCellFromTapPosition(position);
+
+            if (cell == null && cell.TryGetItem(out PlaceableItem placeableItem))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool IsMovingItem()
+        {
+            return _draggedItem != null;
         }
 
         private void UnsubscribeToEvents()

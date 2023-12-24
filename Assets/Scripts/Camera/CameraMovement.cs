@@ -1,4 +1,5 @@
 using Gameplay.InputSystem;
+using Gameplay.MovementSystem;
 using Gameplay.ServiceSystem;
 using UnityEngine;
 
@@ -17,11 +18,15 @@ namespace Gameplay.CameraUtilities
 
         private InputBase _input;
 
+        private ItemMovementManager _itemMovementManager;
+
         private Plane _plane = new Plane(Vector3.up, Vector3.zero);
 
         private void Start()
         {
             _input = ServiceProvider.Instance.InputManager.Input;
+
+            _itemMovementManager = ServiceProvider.Instance.ItemMovementManager;
 
             _cam = Camera.main;
 
@@ -52,14 +57,21 @@ namespace Gameplay.CameraUtilities
 
         private void OnTapMoved(Vector3 currentPosition)
         {
-            Ray ray = _cam.ScreenPointToRay(currentPosition);
-
-            if (_plane.Raycast(ray, out float entry))
+            if (_itemMovementManager.IsMovingItem())
             {
-                _tapCurrentPosition = ray.GetPoint(entry);
+                //MoveCamera if the pointer is on the edge of the screen
             }
+            else
+            {
+                Ray ray = _cam.ScreenPointToRay(currentPosition);
 
-            MoveCamera();
+                if (_plane.Raycast(ray, out float entry))
+                {
+                    _tapCurrentPosition = ray.GetPoint(entry);
+                }
+
+                MoveCamera();
+            }
         }
 
         private void MoveCamera()

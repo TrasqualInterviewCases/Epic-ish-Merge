@@ -103,7 +103,6 @@ namespace Gameplay.GridSystem
                 if (cell.CanAcceptItem())
                 {
                     cell.AcceptItem(item);
-                    occupiedCells.Add(cell);
                     return true;
                 }
                 else

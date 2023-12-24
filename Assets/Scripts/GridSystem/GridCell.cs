@@ -85,12 +85,7 @@ namespace Gameplay.GridSystem
 
         public bool CanAcceptItem()
         {
-            if ((State & GridCellState.Empty) != 0)
-            {
-                return true;
-            }
-
-            return false;
+            return (State & GridCellState.Empty) != 0;
         }
 
         public void AcceptItem(PlaceableItem item)
