@@ -41,6 +41,7 @@ public class GridMeshGenerator : MonoBehaviour
         int width = _gridManager.Width;
         int height = _gridManager.Height;
 
+        List<Vector2> badPoints = new();
         HashSet<Vector3> vertices = new HashSet<Vector3>();
 
         for (int i = 0; i < width; i++)
@@ -51,6 +52,7 @@ public class GridMeshGenerator : MonoBehaviour
 
                 if ((currentCell.State & GridCellState.InActive) != 0)
                 {
+                    badPoints.Add(new Vector2(currentCell.GetWorldPosition().x, currentCell.GetWorldPosition().z));
                     continue;
                 }
 
@@ -68,7 +70,7 @@ public class GridMeshGenerator : MonoBehaviour
         }
 
         mesh.vertices = orderedVertices;
-        SetTriangles(orderedVertices, mesh);
+        SetTriangles(orderedVertices, mesh, badPoints);
         mesh.uv = uvs;
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
@@ -83,7 +85,7 @@ public class GridMeshGenerator : MonoBehaviour
         _checkerMat.mainTextureOffset = new Vector2(xOffset, yOffset);
     }
 
-    private void SetTriangles(Vector3[] points, Mesh mesh)
+    private void SetTriangles(Vector3[] points, Mesh mesh, List<Vector2> badPoints)
     {
         List<DelaunayTriangulation.Vertex> triangulationData = new List<DelaunayTriangulation.Vertex>();
         List<int> indecies = new List<int>();
@@ -93,7 +95,7 @@ public class GridMeshGenerator : MonoBehaviour
             triangulationData.Add(new DelaunayTriangulation.Vertex(new Vector2(points[i].x, points[i].z), i));
         }
         float maxEdgeLenght = Mathf.Sqrt(Mathf.Pow(_gridManager.CellSize * 2f, 2f) + Mathf.Pow(_gridManager.CellSize, 2f));
-        DelaunayTriangulation.Triangulation triangulation = new DelaunayTriangulation.Triangulation(triangulationData, maxEdgeLenght);
+        DelaunayTriangulation.Triangulation triangulation = new DelaunayTriangulation.Triangulation(triangulationData, maxEdgeLenght, badPoints);
 
         foreach (DelaunayTriangulation.Triangle triangle in triangulation.triangles)
         {

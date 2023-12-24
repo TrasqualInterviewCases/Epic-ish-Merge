@@ -77,7 +77,7 @@ namespace DelaunayTriangulation
         }
 
         // Make triangulation from set of points
-        public Triangulation(List<Vertex> points, float maxEdgeLength) : this()
+        public Triangulation(List<Vertex> points, float maxEdgeLength, List<Vector2> badPoints) : this()
         {
             if (points.Count < 3)
             {
@@ -188,6 +188,16 @@ namespace DelaunayTriangulation
                 if (isSuper || triangulation[i].edge0.Length() > maxEdgeLength || triangulation[i].edge1.Length() > maxEdgeLength || triangulation[i].edge2.Length() > maxEdgeLength)
                 {
                     triangulation.RemoveAt(i);
+                    continue;
+                }
+
+                for(int j = 0; j < badPoints.Count; j++)
+                {
+                    if (triangulation[i].PointInCurcumcircle(badPoints[j]))
+                    {
+                        triangulation.RemoveAt(i);
+                        break;
+                    }
                 }
             }
 
