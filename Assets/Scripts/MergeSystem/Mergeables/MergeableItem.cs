@@ -15,7 +15,7 @@ namespace Gameplay.MergeableSystem
 
         private void Awake()
         {
-            _visual = Instantiate(Data.ItemPrefab, transform.position, transform.rotation, transform);
+            _visual = Instantiate(MergeableData.ItemPrefab, transform.position, transform.rotation, transform);
         }
 
         public void ResetItem()
@@ -34,6 +34,11 @@ namespace Gameplay.MergeableSystem
         public void Move(Vector3 position)
         {
             transform.position = position;
+        }
+
+        public override void SetData(PlaceableItemDataSO mergeableData)
+        {
+            MergeableData = mergeableData as MergeableDataSO;
         }
     }
 }

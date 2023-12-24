@@ -60,5 +60,10 @@ namespace Gameplay.PlaceableSystem
                 return false;
             }
         }
+
+        public virtual void SetData(PlaceableItemDataSO placeableItemData)
+        {
+            Data = placeableItemData;
+        }
     }
 }

@@ -1,13 +1,14 @@
 using Gameplay.GridSystem;
+using Gameplay.PlaceableSystem;
 
 public static class EnumExtensions
 {
-    public static GridCellState ConvertToGridCellState(this PlacementType placementType)
+    public static GridCellState ConvertToGridCellState(this PlacementFillType placementType)
     {
         GridCellState cellState = placementType switch
         {
-            PlacementType.Filler => GridCellState.HasFillerObject,
-            PlacementType.NonFiller => GridCellState.HasNoneFillerObject,
+            PlacementFillType.Filler => GridCellState.HasFillerObject,
+            PlacementFillType.NonFiller => GridCellState.HasNoneFillerObject,
             _ => GridCellState.Active
         };
 
