@@ -79,12 +79,21 @@ namespace Gameplay.CameraUtilities
             Vector3 dragDelta = _tapStartPosition - _tapCurrentPosition;
             Vector3 targetPosition = transform.position + dragDelta;
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * _camMovementSpeed);
+
+            Vector3 pos = transform.position;
+            pos.x = Mathf.Clamp(pos.x, 50f, 80f);
+            pos.z = Mathf.Clamp(pos.z, -80f, -50f);
+            transform.position = pos;
         }
 
         private void OnScroll(float scrollAmount)
         {
             Vector3 targetCameraLocalPosition = _cam.transform.localPosition + new Vector3(0f, 0f, _camZoomAmount) * scrollAmount;
             _cam.transform.localPosition = Vector3.Lerp(_cam.transform.localPosition, targetCameraLocalPosition, Time.deltaTime * _camZoomSpeed);
+
+            Vector3 pos = _cam.transform.localPosition;
+            pos.z = Mathf.Clamp(pos.z, 0f, 100f);
+            _cam.transform.localPosition = pos;
         }
 
         private void UnSubscribeToEvents()

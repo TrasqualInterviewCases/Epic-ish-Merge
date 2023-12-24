@@ -92,6 +92,7 @@ namespace Gameplay.GridSystem
         {
             _items.Add(item);
 
+            RemoveState(GridCellState.Active);
             AddState(item.Data.PlacementType.ConvertToGridCellState());
         }
 
