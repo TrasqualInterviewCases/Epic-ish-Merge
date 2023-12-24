@@ -1,4 +1,6 @@
+using Gameplay.PlaceableSystem;
 using Gameplay.ServiceSystem;
+using System.Collections.Generic;
 using UnityEngine;
 using Utilities.Events;
 
@@ -59,6 +61,52 @@ namespace Gameplay.GridSystem
                 return Cells[x, y];
             }
             return null;
+        }
+
+        public bool CanCellAtIndexAcceptItem(Vector2Int cellIndex)
+        {
+            if (!IsIndexWithinGrid(cellIndex))
+            {
+                return false;
+            }
+
+            if (Cells[cellIndex.x, cellIndex.y].CanAcceptItem())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool IsIndexWithinGrid(Vector2 cellIndex)
+        {
+            if (cellIndex.x > 0 && cellIndex.x < Width && cellIndex.y > 0 && cellIndex.y < Height)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool TryPlaceItem(PlaceableItem item, GridCell cell, List<GridCell> occupiedCells)
+        {
+            occupiedCells.Clear();
+
+            for (int i = 0; i < item.Data.PlacementMap.Count; i++)
+            {
+                Vector2Int testedCellIndex = cell.Index + item.Data.PlacementMap[i];
+                if (!CanCellAtIndexAcceptItem(testedCellIndex))
+                {
+                    occupiedCells.Clear();
+                    return false;
+                }
+                else
+                {
+                    occupiedCells.Add(Cells[testedCellIndex.x, testedCellIndex.y]);
+                }
+            }
+
+            return true;
         }
     }
 }

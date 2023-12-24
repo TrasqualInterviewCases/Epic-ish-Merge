@@ -1,16 +1,7 @@
-using UnityEngine;
-
-public class IMergeable : MonoBehaviour
+namespace Gameplay.MergeableSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    public interface IMergeable
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public MergeableDataSO MergeableData { get; set; }
     }
 }

@@ -1,10 +1,15 @@
+using Gameplay.PlaceableSystem;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Gameplay.GridSystem
 {
     public class GridCell
     {
+        public Action<GridCell> OnCellSelected;
+
         public int X { get; private set; }
         public int Y { get; private set; }
 
@@ -13,6 +18,8 @@ namespace Gameplay.GridSystem
         public Vector2Int Index => new Vector2Int(X, Y);
 
         public GridCellState State { get; private set; }
+
+        private List<PlaceableItem> _items = new();
 
         public GridCell(int x, int y, GridCellState state, GridManager gridManager)
         {
@@ -60,14 +67,53 @@ namespace Gameplay.GridSystem
             State |= state;
         }
 
-        public void RemoveState(GridCellState state) 
+        public void RemoveState(GridCellState state)
         {
-            if((State & state) != state)
+            if ((State & state) != state)
             {
                 return;
             }
 
             State &= ~state;
+        }
+
+        public bool CanAcceptItem()
+        {
+            if ((State & GridCellState.Empty) == GridCellState.Empty)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void AcceptItem(PlaceableItem item)
+        {
+            _items.Add(item);
+
+            AddState(item.Data.PlacementType.ConvertToGridCellState());
+        }
+
+        public void TryRemoveItem(PlaceableItem item)
+        {
+            if (!_items.Contains(item))
+            {
+                return;
+            }
+
+            _items.Remove(item);
+
+            RemoveState(item.Data.PlacementType.ConvertToGridCellState());
+        }
+
+        public PlaceableItem GetPlacedItem()
+        {
+            return _items.FirstOrDefault(x => x.Data.PlacementType == PlacementType.Filler);
+        }
+
+        public void SelectCell()
+        {
+            OnCellSelected?.Invoke(this);
         }
     }
 }
