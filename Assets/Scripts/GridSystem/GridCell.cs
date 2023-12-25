@@ -105,6 +105,7 @@ namespace Gameplay.GridSystem
 
             _items.Remove(item);
 
+            AddState(GridCellState.Active);
             RemoveState(item.Data.PlacementType.ConvertToGridCellState());
         }
 

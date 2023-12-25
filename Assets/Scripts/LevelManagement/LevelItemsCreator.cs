@@ -10,16 +10,9 @@ namespace Gameplay.LevelManagement
     {
         [SerializeField] private int _itemCount;
 
-        MergeableFactory _mergeableFactory;
-
         private void Awake()
         {
             ListenEvents();
-        }
-
-        private void Start()
-        {
-            _mergeableFactory = ServiceProvider.Instance.MergeableFactory;
         }
 
         private void ListenEvents()
@@ -35,7 +28,7 @@ namespace Gameplay.LevelManagement
             {
                 GridCell cell = gridManager.GetRandomActiveCell();
   
-                MergeableItem mergeable = _mergeableFactory.GetRandomMergeable();
+                MergeableItem mergeable = ServiceProvider.Instance.MergeableFactory.GetRandomMergeable();
                 mergeable.TryPlaceInCell(cell);
             }
         }
