@@ -29,8 +29,6 @@ namespace Gameplay.GridSystem
         public GridCell Right => _neighbours.TryGetValue(Neighbour.Right, out GridCell cell) ? cell : null;
         public GridCell Left => _neighbours.TryGetValue(Neighbour.Left, out GridCell cell) ? cell : null;
 
-        private List<GridCell> _searchedNeighbours = new();
-
         public GridCell(int x, int y, GridCellState state, GridManager gridManager)
         {
             X = x;
@@ -94,11 +92,25 @@ namespace Gameplay.GridSystem
 
         public bool CanAcceptItem()
         {
+            return _gridManager.FindNearestEmptyCell(this) != null;
+        }
+
+        public bool IsEmpty()
+        {
             return (State & GridCellState.Empty) != 0;
         }
 
         public void AcceptItem(PlaceableItem item)
         {
+            if (TryGetItem(out PlaceableItem currentItem))
+            {
+                GridCell nearestEmptyCell = _gridManager.FindNearestEmptyCell(this);
+                if (nearestEmptyCell != null)
+                {
+                    currentItem.TryPlaceInCell(nearestEmptyCell);
+                }
+            }
+
             _items.Add(item);
 
             RemoveState(GridCellState.Active);
@@ -152,9 +164,7 @@ namespace Gameplay.GridSystem
 
         public GridCell FindNearestEmptyCell(List<GridCell> searchedCells)
         {
-            _searchedNeighbours.Clear();
-
-            if (CanAcceptItem())
+            if (IsEmpty())
             {
                 return this;
             }
@@ -167,7 +177,6 @@ namespace Gameplay.GridSystem
                 {
                     continue;
                 }
-
                 GridCell emptyCell = neighbourCell.FindNearestEmptyCell(searchedCells);
                 if (emptyCell != null)
                 {

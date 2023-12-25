@@ -25,6 +25,8 @@ namespace Gameplay.GridSystem
 
         private Column[] _columns;
 
+        private List<GridCell> _searchedNeighbours = new();
+
         private void Start()
         {
             GridData gridData = ServiceProvider.Instance.LevelManager.GridData;
@@ -159,6 +161,13 @@ namespace Gameplay.GridSystem
             {
                 return GetRandomActiveCell();
             }
+        }
+
+        public GridCell FindNearestEmptyCell(GridCell cell)
+        {
+            _searchedNeighbours.Clear();
+
+            return cell.FindNearestEmptyCell(_searchedNeighbours);
         }
     }
 }
