@@ -14,13 +14,10 @@ namespace Gameplay.MovementSystem
 
         private PlaceableItem _draggedItem;
 
-        private Camera _cam;
-
         private void Awake()
         {
             _gridManager = ServiceProvider.Instance.GridManager;
             _inputManager = ServiceProvider.Instance.InputManager;
-            _cam = Camera.main;
 
             ListenEvents();
         }
@@ -34,7 +31,7 @@ namespace Gameplay.MovementSystem
 
         private void OnTapDown(Vector3 position)
         {
-            GridCell cell = GetCellFromTapPosition(position);
+            GridCell cell = _gridManager.GetCellFromTapPosition(position);
 
             if (cell != null && cell.TryGetItem(out PlaceableItem item))
             {
@@ -45,34 +42,11 @@ namespace Gameplay.MovementSystem
             }
         }
 
-        private GridCell GetCellFromTapPosition(Vector3 position)
-        {
-            Ray ray = _cam.ScreenPointToRay(position);
-
-            Vector3 projectedPos = Vector3.zero;
-
-            if (_gridManager.Plane.Raycast(ray, out float distance))
-            {
-                projectedPos = ray.GetPoint(distance);
-            }
-            else
-            {
-                return null;
-            }
-
-            if (_gridManager.TryGetCellFromPosition(projectedPos, out GridCell cell))
-            {
-                return cell;
-            }
-
-            return null;
-        }
-
         private void OnTapHold(Vector3 position)
         {
             if (_draggedItem != null)
             {
-                GridCell cell = GetCellFromTapPosition(position);
+                GridCell cell = _gridManager.GetCellFromTapPosition(position);
                 Vector3 targetPosition;
                 if (cell != null && (cell.State & GridCellState.InActive) != GridCellState.InActive)
                 {
@@ -80,16 +54,7 @@ namespace Gameplay.MovementSystem
                 }
                 else
                 {
-                    Ray ray = _cam.ScreenPointToRay(position);
-
-                    Vector3 projectedPos = Vector3.zero;
-
-                    if (_gridManager.Plane.Raycast(ray, out float distance))
-                    {
-                        projectedPos = ray.GetPoint(distance);
-                    }
-
-                    targetPosition = projectedPos + Vector3.up;
+                    targetPosition = _gridManager.GetPointerGridPlanePosition(position);
                 }
 
                 ((IMoveable)_draggedItem).Move(targetPosition);
@@ -100,7 +65,7 @@ namespace Gameplay.MovementSystem
         {
             if (_draggedItem != null)
             {
-                GridCell cell = GetCellFromTapPosition(position);
+                GridCell cell = _gridManager.GetCellFromTapPosition(position);
 
                 if (cell != null && cell.CanAcceptItem())
                 {
@@ -120,7 +85,7 @@ namespace Gameplay.MovementSystem
 
         public bool IsPointerOverPlaceable(Vector3 position)
         {
-            GridCell cell = GetCellFromTapPosition(position);
+            GridCell cell = _gridManager.GetCellFromTapPosition(position);
 
             if (cell == null && cell.TryGetItem(out PlaceableItem placeableItem))
             {

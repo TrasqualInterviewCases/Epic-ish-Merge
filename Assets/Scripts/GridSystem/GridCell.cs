@@ -1,5 +1,7 @@
+using Gameplay.InputSystem;
 using Gameplay.MovementSystem;
 using Gameplay.PlaceableSystem;
+using Gameplay.ServiceSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +9,8 @@ using UnityEngine;
 
 namespace Gameplay.GridSystem
 {
-    public class GridCell
+    public class GridCell : IDisposable
     {
-        public Action<GridCell> OnCellSelected;
-
         public int X { get; private set; }
         public int Y { get; private set; }
 
@@ -29,6 +29,8 @@ namespace Gameplay.GridSystem
         public GridCell Right => _neighbours.TryGetValue(Neighbour.Right, out GridCell cell) ? cell : null;
         public GridCell Left => _neighbours.TryGetValue(Neighbour.Left, out GridCell cell) ? cell : null;
 
+        private InputBase _input;
+
         public GridCell(int x, int y, GridCellState state, GridManager gridManager)
         {
             X = x;
@@ -37,6 +39,15 @@ namespace Gameplay.GridSystem
             AddState(state);
 
             _gridManager = gridManager;
+
+            _input = ServiceProvider.Instance.InputManager.Input;
+
+            ListenEvents();
+        }
+
+        private void ListenEvents()
+        {
+            _input.OnTapUp += SelectCell;
         }
 
         public Vector3 GetWorldPosition()
@@ -157,9 +168,12 @@ namespace Gameplay.GridSystem
             return _neighbours[neighbour];
         }
 
-        public void SelectCell()
+        public void SelectCell(Vector3 tapPosition)
         {
-            OnCellSelected?.Invoke(this);
+            if (_gridManager.GetCellFromTapPosition(tapPosition) == this)
+            {
+                Debug.Log("Cell selected: " + Index);
+            }
         }
 
         public GridCell FindNearestEmptyCell(List<GridCell> searchedCells)
@@ -185,6 +199,16 @@ namespace Gameplay.GridSystem
             }
 
             return null;
+        }
+
+        private void UnsubscribeToEvents()
+        {
+            _input.OnTapUp -= SelectCell;
+        }
+
+        public void Dispose()
+        {
+            UnsubscribeToEvents();
         }
     }
 }

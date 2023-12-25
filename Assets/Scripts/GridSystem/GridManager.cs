@@ -1,7 +1,9 @@
 using Gameplay.PlaceableSystem;
 using Gameplay.ServiceSystem;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Utilities.Events;
 
 namespace Gameplay.GridSystem
@@ -27,8 +29,12 @@ namespace Gameplay.GridSystem
 
         private List<GridCell> _searchedNeighbours = new();
 
+        private Camera _cam;
+
         private void Start()
         {
+            _cam = Camera.main;
+
             GridData gridData = ServiceProvider.Instance.LevelManager.GridData;
 
             Width = gridData.Width;
@@ -168,6 +174,44 @@ namespace Gameplay.GridSystem
             _searchedNeighbours.Clear();
 
             return cell.FindNearestEmptyCell(_searchedNeighbours);
+        }
+
+        public GridCell GetCellFromTapPosition(Vector3 position)
+        {
+            Ray ray = _cam.ScreenPointToRay(position);
+
+            Vector3 projectedPos = Vector3.zero;
+
+            if (Plane.Raycast(ray, out float distance))
+            {
+                projectedPos = ray.GetPoint(distance);
+            }
+            else
+            {
+                return null;
+            }
+
+            if (TryGetCellFromPosition(projectedPos, out GridCell cell))
+            {
+                return cell;
+            }
+
+            return null;
+        }
+
+
+        public Vector3 GetPointerGridPlanePosition(Vector3 pointerPosition)
+        {
+            Ray ray = _cam.ScreenPointToRay(pointerPosition);
+
+            Vector3 projectedPos = Vector3.zero;
+
+            if (Plane.Raycast(ray, out float distance))
+            {
+                projectedPos = ray.GetPoint(distance);
+            }
+
+            return projectedPos + Vector3.up;
         }
     }
 }
