@@ -22,6 +22,15 @@ namespace Gameplay.GridSystem
 
         private List<PlaceableItem> _items = new();
 
+        private Dictionary<Neighbour, GridCell> _neighbours = new();
+
+        public GridCell Up => _neighbours.TryGetValue(Neighbour.Up, out GridCell cell) ? cell : null;
+        public GridCell Down => _neighbours.TryGetValue(Neighbour.Down, out GridCell cell) ? cell : null;
+        public GridCell Right => _neighbours.TryGetValue(Neighbour.Right, out GridCell cell) ? cell : null;
+        public GridCell Left => _neighbours.TryGetValue(Neighbour.Left, out GridCell cell) ? cell : null;
+
+        private List<GridCell> _searchedNeighbours = new();
+
         public GridCell(int x, int y, GridCellState state, GridManager gridManager)
         {
             X = x;
@@ -126,9 +135,47 @@ namespace Gameplay.GridSystem
             return _items.FirstOrDefault(x => x is IMoveable);
         }
 
+        public void AddNeighbour(Neighbour neighbourType, GridCell cell)
+        {
+            _neighbours.Add(neighbourType, cell);
+        }
+
+        public GridCell GetNeighbour(Neighbour neighbour)
+        {
+            return _neighbours[neighbour];
+        }
+
         public void SelectCell()
         {
             OnCellSelected?.Invoke(this);
+        }
+
+        public GridCell FindNearestEmptyCell(List<GridCell> searchedCells)
+        {
+            _searchedNeighbours.Clear();
+
+            if (CanAcceptItem())
+            {
+                return this;
+            }
+
+            searchedCells.Add(this);
+
+            foreach (GridCell neighbourCell in _neighbours.Values)
+            {
+                if (searchedCells.Contains(neighbourCell))
+                {
+                    continue;
+                }
+
+                GridCell emptyCell = neighbourCell.FindNearestEmptyCell(searchedCells);
+                if (emptyCell != null)
+                {
+                    return emptyCell;
+                }
+            }
+
+            return null;
         }
     }
 }

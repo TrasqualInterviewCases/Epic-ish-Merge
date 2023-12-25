@@ -48,6 +48,17 @@ namespace Gameplay.GridSystem
                 for (int j = 0; j < Height; j++)
                 {
                     Cells[i, j] = new GridCell(i, j, _columns[j].Row[i], this);
+
+                    if (i != 0)
+                    {
+                        Cells[i, j].AddNeighbour(Neighbour.Left, Cells[i - 1, j]);
+                        Cells[i - 1, j].AddNeighbour(Neighbour.Right, Cells[i, j]);
+                    }
+                    if (j != 0)
+                    {
+                        Cells[i, j].AddNeighbour(Neighbour.Down, Cells[i, j - 1]);
+                        Cells[i, j - 1].AddNeighbour(Neighbour.Up, Cells[i, j]);
+                    }
                 }
             }
 
