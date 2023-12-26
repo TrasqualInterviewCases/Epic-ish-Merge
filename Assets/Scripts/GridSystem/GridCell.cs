@@ -1,4 +1,5 @@
 using Gameplay.InputSystem;
+using Gameplay.MergeableSystem;
 using Gameplay.MovementSystem;
 using Gameplay.PlaceableSystem;
 using Gameplay.ServiceSystem;
@@ -126,6 +127,8 @@ namespace Gameplay.GridSystem
 
             RemoveState(GridCellState.Active);
             AddState(item.Data.PlacementType.ConvertToGridCellState());
+
+            Debug.Log(MergeFinder.CanMerge(this));
         }
 
         public void TryRemoveItem(PlaceableItem item)
@@ -170,10 +173,10 @@ namespace Gameplay.GridSystem
 
         public void SelectCell(Vector3 tapPosition)
         {
-            if (_gridManager.GetCellFromTapPosition(tapPosition) == this)
-            {
-                Debug.Log("Cell selected: " + Index);
-            }
+            //if (_gridManager.GetCellFromTapPosition(tapPosition) == this)
+            //{
+            //    Debug.Log("Cell selected: " + Index);
+            //}
         }
 
         public GridCell FindNearestEmptyCell(List<GridCell> searchedCells)
@@ -199,6 +202,48 @@ namespace Gameplay.GridSystem
             }
 
             return null;
+        }
+
+        public void FindMergeableCells(List<GridCell> searchedCells, List<GridCell> mergeableCells)
+        {
+            if (!searchedCells.Contains(this))
+            {
+                searchedCells.Add(this);
+                if (HasSameTypeMergeable(searchedCells[0]))
+                {
+                    mergeableCells.Add(this);
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            foreach (GridCell neighbourCell in _neighbours.Values)
+            {
+                if (searchedCells.Contains(neighbourCell))
+                {
+                    continue;
+                }
+
+                neighbourCell.FindMergeableCells(searchedCells, mergeableCells);
+            }
+        }
+
+        public bool HasSameTypeMergeable(GridCell cell)
+        {
+            if (TryGetItem(out PlaceableItem placeableItem))
+            {
+                if (placeableItem is MergeableItem mergeable)
+                {
+                    if (mergeable.MergeableData.MergeType == ((MergeableItem)cell.GetPlacedItem()).MergeType)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private void UnsubscribeToEvents()
