@@ -1,4 +1,5 @@
 using Gameplay.GridSystem;
+using Gameplay.PlaceableSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,10 +15,13 @@ namespace Gameplay.MergeableSystem
             _searchedCells.Clear();
             _mergeableCells.Clear();
 
-            _searchedCells.Add(cell);
-            _mergeableCells.Add(cell);
-
-            cell.FindMergeableCells(_searchedCells, _mergeableCells);
+            if (cell.TryGetItem(out PlaceableItem placeable))
+            {
+                if (placeable is MergeableItem mergeable)
+                {
+                    cell.FindMergeableCells(mergeable.MergeableData.MergeType, _searchedCells, _mergeableCells);
+                }
+            }
 
             foreach (var item in _mergeableCells)
             {

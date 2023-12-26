@@ -1,3 +1,4 @@
+using Gameplay.MergeableSystem;
 using Gameplay.PlaceableSystem;
 using Gameplay.ServiceSystem;
 using System.Collections.Generic;
@@ -121,7 +122,7 @@ namespace Gameplay.GridSystem
             {
                 if (cell.CanAcceptItem())
                 {
-                    cell.PlaceItemWithInput(item);
+                    cell.AcceptItem(item);
                     return true;
                 }
                 else

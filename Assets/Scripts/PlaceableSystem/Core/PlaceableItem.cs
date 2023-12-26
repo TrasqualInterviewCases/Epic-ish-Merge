@@ -1,4 +1,5 @@
 using Gameplay.GridSystem;
+using Gameplay.MergeableSystem;
 using Gameplay.ServiceSystem;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,8 @@ namespace Gameplay.PlaceableSystem
                 LastKnownPosition = LastPlacedInCell.GetWorldPosition();
                 transform.position = LastKnownPosition;
                 OnPlacementSuccess?.Invoke(this);
+
+                Debug.Log(MergeFinder.CanMerge(cell));
                 return true;
             }
             else

@@ -112,13 +112,6 @@ namespace Gameplay.GridSystem
             return (State & GridCellState.Empty) != 0;
         }
 
-        public void PlaceItemWithInput(PlaceableItem item)
-        {
-            AcceptItem(item);
-
-            Debug.Log(MergeFinder.CanMerge(this));
-        }
-
         public void AcceptItem(PlaceableItem item)
         {
             if (TryGetItem(out PlaceableItem currentItem))
@@ -180,7 +173,7 @@ namespace Gameplay.GridSystem
         {
             //if (_gridManager.GetCellFromTapPosition(tapPosition) == this)
             //{
-            //    Debug.Log("Cell selected: " + Index);
+            //    Debug.Log(GetPlacedItem());
             //}
         }
 
@@ -209,34 +202,36 @@ namespace Gameplay.GridSystem
             return null;
         }
 
-        public void FindMergeableCells(List<GridCell> searchedCells, List<GridCell> mergeableCells)
+        public void FindMergeableCells(MergeableType mergeType, List<GridCell> searchedCells, List<GridCell> mergeableCells)
         {
-            if (!searchedCells.Contains(this))
+            if (searchedCells.Contains(this))
             {
-                searchedCells.Add(this);
-                if (HasSameTypeMergeable(mergeableCells[0]))
+                return;
+            }
+
+            searchedCells.Add(this);
+
+            if (HasSameTypeMergeable(mergeType))
+            {
+                if (!mergeableCells.Contains(this))
                 {
                     mergeableCells.Add(this);
                 }
-                else
-                {
-                    return;
-                }
-            }
 
-            foreach (GridCell neighbourCell in _neighbours.Values)
-            {
-                neighbourCell.FindMergeableCells(searchedCells, mergeableCells);
+                foreach (GridCell neighbourCell in _neighbours.Values)
+                {
+                    neighbourCell.FindMergeableCells(mergeType, searchedCells, mergeableCells);
+                }
             }
         }
 
-        public bool HasSameTypeMergeable(GridCell cell)
+        public bool HasSameTypeMergeable(MergeableType mergeType)
         {
             if (TryGetItem(out PlaceableItem placeableItem))
             {
                 if (placeableItem is MergeableItem mergeable)
                 {
-                    if (mergeable.MergeableData.MergeType == ((MergeableItem)cell.GetPlacedItem()).MergeType)
+                    if (mergeable.MergeableData.MergeType == mergeType)
                     {
                         return true;
                     }
