@@ -113,7 +113,7 @@ namespace Gameplay.GridSystem
             return false;
         }
 
-        public bool TryPlaceItem(PlaceableItem item, GridCell cell, List<GridCell> occupiedCells)
+        public bool TryPlaceItemWithInput(PlaceableItem item, GridCell cell, List<GridCell> occupiedCells)
         {
             occupiedCells.Clear();
 
@@ -121,7 +121,7 @@ namespace Gameplay.GridSystem
             {
                 if (cell.CanAcceptItem())
                 {
-                    cell.AcceptItem(item);
+                    cell.PlaceItemWithInput(item);
                     return true;
                 }
                 else
@@ -146,6 +146,7 @@ namespace Gameplay.GridSystem
                 else
                 {
                     occupiedCells.Add(Cells[testedCellIndex.x, testedCellIndex.y]);
+                    Cells[testedCellIndex.x, testedCellIndex.y].AcceptItem(item);
                     Debug.Log("Cell can accept item");
                 }
             }

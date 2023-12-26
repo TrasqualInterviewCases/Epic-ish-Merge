@@ -32,7 +32,7 @@ namespace Gameplay.PlaceableSystem
 
         public bool TryPlaceInCell(GridCell cell)
         {
-            if (_gridManager.TryPlaceItem(this, cell, OccupiedCells))
+            if (_gridManager.TryPlaceItemWithInput(this, cell, OccupiedCells))
             {
                 if (LastPlacedInCell != null)
                 {

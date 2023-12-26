@@ -112,6 +112,13 @@ namespace Gameplay.GridSystem
             return (State & GridCellState.Empty) != 0;
         }
 
+        public void PlaceItemWithInput(PlaceableItem item)
+        {
+            AcceptItem(item);
+
+            Debug.Log(MergeFinder.CanMerge(this));
+        }
+
         public void AcceptItem(PlaceableItem item)
         {
             if (TryGetItem(out PlaceableItem currentItem))
@@ -127,8 +134,6 @@ namespace Gameplay.GridSystem
 
             RemoveState(GridCellState.Active);
             AddState(item.Data.PlacementType.ConvertToGridCellState());
-
-            Debug.Log(MergeFinder.CanMerge(this));
         }
 
         public void TryRemoveItem(PlaceableItem item)
@@ -209,7 +214,7 @@ namespace Gameplay.GridSystem
             if (!searchedCells.Contains(this))
             {
                 searchedCells.Add(this);
-                if (HasSameTypeMergeable(searchedCells[0]))
+                if (HasSameTypeMergeable(mergeableCells[0]))
                 {
                     mergeableCells.Add(this);
                 }
@@ -221,11 +226,6 @@ namespace Gameplay.GridSystem
 
             foreach (GridCell neighbourCell in _neighbours.Values)
             {
-                if (searchedCells.Contains(neighbourCell))
-                {
-                    continue;
-                }
-
                 neighbourCell.FindMergeableCells(searchedCells, mergeableCells);
             }
         }

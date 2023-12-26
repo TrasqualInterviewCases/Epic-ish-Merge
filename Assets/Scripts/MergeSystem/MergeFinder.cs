@@ -1,5 +1,6 @@
 using Gameplay.GridSystem;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Gameplay.MergeableSystem
 {
@@ -17,6 +18,11 @@ namespace Gameplay.MergeableSystem
             _mergeableCells.Add(cell);
 
             cell.FindMergeableCells(_searchedCells, _mergeableCells);
+
+            foreach (var item in _mergeableCells)
+            {
+                Debug.Log(item.Index);
+            }
 
             return _mergeableCells.Count >= 3;
         }
