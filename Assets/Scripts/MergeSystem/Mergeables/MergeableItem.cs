@@ -3,7 +3,6 @@ using DG.Tweening;
 using Gameplay.GridSystem;
 using Gameplay.MovementSystem;
 using Gameplay.PlaceableSystem;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Gameplay.MergeableSystem
@@ -13,25 +12,38 @@ namespace Gameplay.MergeableSystem
         public MergeableDataSO MergeableData { get; set; }
 
         public MergeableType MergeType => MergeableData.MergeType;
+
         public int Level => MergeableData.Level;
 
         private GameObject _visual;
 
-        public void Init()
+        private AddressablePool _mergeablePool;
+        private AddressablePool _visualPool;
+
+        public async void Init(AddressablePool mergeablePool, AddressablePool visualPool)
         {
-            _visual = Instantiate(MergeableData.ItemPrefab, transform.position, transform.rotation, transform);
+            _mergeablePool = mergeablePool;
+            _visualPool = visualPool;
+
+            _visual = await visualPool.GetItem();
+            _visual.transform.SetParent(transform);
+            _visualPool.transform.localPosition = Vector3.zero;
         }
 
         public void ResetItem()
         {
             ReleasePreviousCells();
-            Destroy(_visual.gameObject);
+
+            _visualPool.ReturnItem(_visual);
+
             _visual = null;
             MergeableData = null;
             Data = null;
 
-            //change with pool
-            Destroy(gameObject);
+            _mergeablePool.ReturnItem(gameObject);
+
+            _visualPool = null;
+            _mergeablePool = null;
         }
 
         public void Merge()

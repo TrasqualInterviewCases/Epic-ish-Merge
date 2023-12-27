@@ -581,6 +581,7 @@ GameObject:
   - component: {fileID: 1284546591}
   - component: {fileID: 1284546590}
   - component: {fileID: 1284546596}
+  - component: {fileID: 1284546597}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -641,6 +642,7 @@ MonoBehaviour:
   <GridManager>k__BackingField: {fileID: 1284546591}
   <MergeableFactory>k__BackingField: {fileID: 1665486641}
   <ItemMovementManager>k__BackingField: {fileID: 1284546596}
+  <AddressablePoolManager>k__BackingField: {fileID: 1284546597}
 --- !u!4 &1284546594
 Transform:
   m_ObjectHideFlags: 0
@@ -699,6 +701,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2303ed4da783e242abdaf1da594bcbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1284546597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284546589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed089b6706d7f084d93f86e157dd17b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1603658540
@@ -775,8 +789,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e7cc68e6b23f544a452a08f184c38b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mergeableItemPrefab: {fileID: 8016246750418509806, guid: de758fad45c098f449c012de7b78c1c5,
-    type: 3}
+  _mergeableItemPrefab:
+    m_AssetGUID: de758fad45c098f449c012de7b78c1c5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   _mergeableDatas:
   - {fileID: 11400000, guid: 3b9e7daaadaeb824cb13f0bc065fe51f, type: 2}
   - {fileID: 11400000, guid: 4e42e9b9e46739441bdb3f8fa472f2a0, type: 2}

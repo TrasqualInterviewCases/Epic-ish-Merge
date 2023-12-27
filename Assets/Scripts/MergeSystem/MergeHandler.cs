@@ -37,7 +37,7 @@ namespace Gameplay.MergeableSystem
 
                     for (int j = 0; j < amountOfHigherLevelMergeablesToCreate; j++)
                     {
-                        MergeableItem higherLevelMergeable = ServiceProvider.Instance.MergeableFactory.GetMergableItem(mergeables[0].MergeType, sameLevelMergeables[0].Level + 1);
+                        MergeableItem higherLevelMergeable = await ServiceProvider.Instance.MergeableFactory.GetMergableItem(mergeables[0].MergeType, sameLevelMergeables[0].Level + 1);
 
                         mergeables.Add(higherLevelMergeable);
                     }

@@ -15,7 +15,10 @@ MonoBehaviour:
   PlacementMap:
   - {x: 0, y: 0}
   PlacementType: 0
-  ItemPrefab: {fileID: 2211165374419119593, guid: 3b3e420b95a76d849a12c0b33dac5dd6,
-    type: 3}
+  ItemPrefab:
+    m_AssetGUID: 3b3e420b95a76d849a12c0b33dac5dd6
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   MergeType: 1
   Level: 1

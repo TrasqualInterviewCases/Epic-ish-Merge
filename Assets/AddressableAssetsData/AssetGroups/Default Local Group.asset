@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 7dfc3358f05acee41af4fa3055b66d89
+  m_SerializeEntries:
+  - m_GUID: de758fad45c098f449c012de7b78c1c5
+    m_Address: Assets/Prefabs/MergableItemPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 16eab35e69526324daea32b472bd3e32
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 0/CubeMergeableVisualPrefab
+      0.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9d1e49fdf6e9d7344895b9a8e9464164
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 0/SphereMergeableVisualPrefab
+      0.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 274748cfc702c6d4090c6be908103f38
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 0/CapsuleMergeableVisualPrefab
+      0.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: efb603b2628748f40a3f8f60ba9b258a
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 0/CylinderMergeableVisualPrefab
+      0.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4f73bfde2b2f554458473afab2f76447
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 1/CapsuleMergeableVisualPrefab
+      1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4c3042338eebdd74b9827350e595bc42
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 1/CubeMergeableVisualPrefab
+      1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 181ed3401497b1f4db675e8fd8efaf27
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 1/CylinderMergeableVisualPrefab
+      1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3b3e420b95a76d849a12c0b33dac5dd6
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 1/SphereMergeableVisualPrefab
+      1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 42fd04e8de1012f40b9f97399419a2dd, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 85537250375f1ae4a8188eff81dee8c9, type: 2}
+    - {fileID: 11400000, guid: 6fde542bdb39103429641a0cfdea4533, type: 2}

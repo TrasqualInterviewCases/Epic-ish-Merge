@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Gameplay.GridSystem;
 using Gameplay.MergeableSystem;
 using Gameplay.ServiceSystem;
@@ -20,19 +21,22 @@ namespace Gameplay.LevelManagement
             EventManager.Instance.AddListener<GridGeneratedEvent>(OnGridGenerated);
         }
 
-        private void OnGridGenerated(object data)
+        private async void OnGridGenerated(object data)
         {
             GridManager gridManager = ((GridGeneratedEvent)data).GridManager;
+
+            await UniTask.WaitUntil(() => ServiceProvider.Instance.MergeableFactory.AllPoolsAreReady);
 
             for (int i = 0; i < _itemCount; i++)
             {
                 GridCell cell = gridManager.GetRandomActiveCell();
 
-                MergeableItem mergeable = ServiceProvider.Instance.MergeableFactory.GetRandomMergeable(0);
+                MergeableItem mergeable = await ServiceProvider.Instance.MergeableFactory.GetRandomMergeable(0);
+
                 if (mergeable.TryPlaceInCell(cell))
                 {
                     mergeable.Move(cell.GetWorldPosition());
-                }
+                }         
             }
         }
 
