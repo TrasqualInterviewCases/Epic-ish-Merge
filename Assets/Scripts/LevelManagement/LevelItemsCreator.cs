@@ -27,9 +27,12 @@ namespace Gameplay.LevelManagement
             for (int i = 0; i < _itemCount; i++)
             {
                 GridCell cell = gridManager.GetRandomActiveCell();
-  
+
                 MergeableItem mergeable = ServiceProvider.Instance.MergeableFactory.GetRandomMergeable();
-                mergeable.TryPlaceInCell(cell);
+                if (mergeable.TryPlaceInCell(cell))
+                {
+                    mergeable.Move(cell.GetWorldPosition());
+                }
             }
         }
 

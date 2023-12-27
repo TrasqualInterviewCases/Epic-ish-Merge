@@ -1,5 +1,4 @@
 using Gameplay.GridSystem;
-using Gameplay.MergeableSystem;
 using Gameplay.ServiceSystem;
 using System;
 using System.Collections.Generic;
@@ -9,15 +8,14 @@ namespace Gameplay.PlaceableSystem
 {
     public abstract class PlaceableItem : MonoBehaviour
     {
-        public Action<PlaceableItem> OnPlacementSuccess;
-        public Action<PlaceableItem> OnPlacementFail;
-
         public PlaceableItemDataSO Data { get; protected set; }
-        public List<GridCell> OccupiedCells { get; protected set; } = new();
 
         public Vector3 LastKnownPosition { get; protected set; }
 
+        protected List<GridCell> OccupiedCells = new();
+
         private GridCell LastPlacedInCell;
+        private List<GridCell> LastOccupiedCells = new();
 
         protected GridManager _gridManager;
 
@@ -37,28 +35,25 @@ namespace Gameplay.PlaceableSystem
             {
                 if (LastPlacedInCell != null)
                 {
-                    LastPlacedInCell.TryRemoveItem(this);
-
-                    if (OccupiedCells != null && OccupiedCells.Count > 0)
+                    if (LastOccupiedCells != null && LastOccupiedCells.Count > 0)
                     {
-                        for (int i = 0; i < OccupiedCells.Count; i++)
+                        for (int i = 0; i < LastOccupiedCells.Count; i++)
                         {
-                            OccupiedCells[i].TryRemoveItem(this);
+                            LastOccupiedCells[i].TryRemoveItem(this);
+                            _gridManager.ReportCellWasEmptied();
                         }
                     }
                 }
+
                 LastPlacedInCell = cell;
+                LastOccupiedCells = new List<GridCell>(OccupiedCells);
 
                 LastKnownPosition = LastPlacedInCell.GetWorldPosition();
-                transform.position = LastKnownPosition;
-                OnPlacementSuccess?.Invoke(this);
 
-                Debug.Log(MergeFinder.CanMerge(cell));
                 return true;
             }
             else
             {
-                OnPlacementFail?.Invoke(this);
                 return false;
             }
         }

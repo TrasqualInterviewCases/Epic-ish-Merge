@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6794eb0febabf434cb5c27e5ba4a0ac9, type: 3}
   m_Name: CapsuleMergeableData
   m_EditorClassIdentifier: 
+  PlacementMap:
+  - {x: 0, y: 0}
+  PlacementType: 0
   ItemPrefab: {fileID: 2524901911504571763, guid: 274748cfc702c6d4090c6be908103f38,
     type: 3}
   MergeType: 2

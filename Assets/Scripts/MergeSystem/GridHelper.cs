@@ -1,11 +1,10 @@
 using Gameplay.GridSystem;
 using Gameplay.PlaceableSystem;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Gameplay.MergeableSystem
 {
-    public static class MergeFinder
+    public static class GridHelper
     {
         public static List<GridCell> _searchedCells = new List<GridCell>();
         public static List<GridCell> _mergeableCells = new List<GridCell>();
@@ -23,12 +22,15 @@ namespace Gameplay.MergeableSystem
                 }
             }
 
-            foreach (var item in _mergeableCells)
-            {
-                Debug.Log(item.Index);
-            }
-
             return _mergeableCells.Count >= 3;
+        }
+
+
+        public static GridCell FindNearestEmptyCell(GridCell cell)
+        {
+            _searchedCells.Clear();
+
+            return cell.FindNearestEmptyCell(_searchedCells);
         }
     }
 }

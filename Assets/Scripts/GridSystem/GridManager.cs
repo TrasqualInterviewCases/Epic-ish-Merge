@@ -32,6 +32,8 @@ namespace Gameplay.GridSystem
 
         private Camera _cam;
 
+        private int _emptyCellCount;
+
         private void Start()
         {
             _cam = Camera.main;
@@ -44,6 +46,7 @@ namespace Gameplay.GridSystem
             CenterPosition = gridData.Center;
             _columns = gridData.Columns;
             Plane = new Plane(Vector3.up, CenterPosition);
+            _emptyCellCount = Width * Height;
 
             GenerateGrid();
         }
@@ -56,6 +59,11 @@ namespace Gameplay.GridSystem
             {
                 for (int j = 0; j < Height; j++)
                 {
+                    if (_columns[j].Row[i] == GridCellState.InActive)
+                    {
+                        _emptyCellCount--;
+                    }
+
                     Cells[i, j] = new GridCell(i, j, _columns[j].Row[i], this);
 
                     if (i != 0)
@@ -74,7 +82,7 @@ namespace Gameplay.GridSystem
             EventManager.Instance.TriggerEvent<GridGeneratedEvent>(new GridGeneratedEvent { GridManager = this });
         }
 
-        public bool TryGetCellFromPosition(Vector3 position, out GridCell cell)
+        private bool TryGetCellFromPosition(Vector3 position, out GridCell cell)
         {
             int x = Mathf.FloorToInt((position.x - OriginPosition.x) / CellSize);
             int y = Mathf.FloorToInt((position.z - OriginPosition.z) / CellSize);
@@ -118,41 +126,50 @@ namespace Gameplay.GridSystem
         {
             occupiedCells.Clear();
 
-            if (item.Data.PlacementMap == null || item.Data.PlacementMap.Count <= 0)
+            if (CanAllCellsInPlacementMapAcceptItem(item, cell))
             {
-                if (cell.CanAcceptItem())
+                for (int i = 0; i < item.Data.PlacementMap.Count; i++)
                 {
-                    cell.AcceptItem(item);
-                    return true;
+                    Vector2Int currentCellIndex = cell.Index + item.Data.PlacementMap[i];
+                    GridCell currentCell = Cells[currentCellIndex.x, currentCellIndex.y];
+
+                    occupiedCells.Add(currentCell);
+                    currentCell.AcceptItem(item);
+                    _emptyCellCount--;
                 }
-                else
-                {
-                    return false;
-                }
+
+                return true;
             }
+
+            return false;
+        }
+
+        private bool CanAllCellsInPlacementMapAcceptItem(PlaceableItem item, GridCell cell)
+        {
+            int cellsWithShovableItem = 0;
 
             for (int i = 0; i < item.Data.PlacementMap.Count; i++)
             {
                 Vector2Int testedCellIndex = cell.Index + item.Data.PlacementMap[i];
-                if (!CanCellAtIndexAcceptItem(testedCellIndex))
+                GridCell testedCell = Cells[testedCellIndex.x, testedCellIndex.y];
+
+                if (testedCell.IsEmpty())
                 {
-                    Debug.Log("Cell can NOT accept item");
-                    foreach (GridCell occupiedCell in occupiedCells)
-                    {
-                        occupiedCell.TryRemoveItem(item);
-                    }
-                    occupiedCells.Clear();
-                    return false;
+                    continue;
                 }
-                else
+
+                if (testedCell.HasShovableItem())
                 {
-                    occupiedCells.Add(Cells[testedCellIndex.x, testedCellIndex.y]);
-                    Cells[testedCellIndex.x, testedCellIndex.y].AcceptItem(item);
-                    Debug.Log("Cell can accept item");
+                    cellsWithShovableItem++;
                 }
             }
 
-            return true;
+            if (cellsWithShovableItem <= _emptyCellCount)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public GridCell GetRandomActiveCell()
@@ -169,13 +186,6 @@ namespace Gameplay.GridSystem
             {
                 return GetRandomActiveCell();
             }
-        }
-
-        public GridCell FindNearestEmptyCell(GridCell cell)
-        {
-            _searchedNeighbours.Clear();
-
-            return cell.FindNearestEmptyCell(_searchedNeighbours);
         }
 
         public GridCell GetCellFromTapPosition(Vector3 position)
@@ -214,6 +224,11 @@ namespace Gameplay.GridSystem
             }
 
             return projectedPos + Vector3.up;
+        }
+
+        public void ReportCellWasEmptied()
+        {
+            _emptyCellCount++;
         }
     }
 }

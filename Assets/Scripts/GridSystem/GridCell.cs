@@ -104,7 +104,12 @@ namespace Gameplay.GridSystem
 
         public bool CanAcceptItem()
         {
-            return _gridManager.FindNearestEmptyCell(this) != null;
+            return !IsInActive() || HasShovableItem();
+        }
+
+        public bool IsInActive()
+        {
+            return (State & GridCellState.InActive) == 0;
         }
 
         public bool IsEmpty()
@@ -112,14 +117,26 @@ namespace Gameplay.GridSystem
             return (State & GridCellState.Empty) != 0;
         }
 
+        public bool HasShovableItem()
+        {
+            if (TryGetItem(out PlaceableItem currentItem))
+            {
+                if (currentItem is IShoveable shoveable)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void AcceptItem(PlaceableItem item)
         {
             if (TryGetItem(out PlaceableItem currentItem))
             {
-                GridCell nearestEmptyCell = _gridManager.FindNearestEmptyCell(this);
-                if (nearestEmptyCell != null)
+                if (currentItem is IShoveable shoveable)
                 {
-                    currentItem.TryPlaceInCell(nearestEmptyCell);
+                    shoveable.Shove(this);
                 }
             }
 
@@ -154,7 +171,7 @@ namespace Gameplay.GridSystem
             return false;
         }
 
-        public PlaceableItem GetPlacedItem()
+        private PlaceableItem GetPlacedItem()
         {
             return _items.FirstOrDefault(x => x is IMoveable);
         }
@@ -225,7 +242,7 @@ namespace Gameplay.GridSystem
             }
         }
 
-        public bool HasSameTypeMergeable(MergeableType mergeType)
+        private bool HasSameTypeMergeable(MergeableType mergeType)
         {
             if (TryGetItem(out PlaceableItem placeableItem))
             {

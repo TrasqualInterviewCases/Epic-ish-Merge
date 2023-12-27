@@ -67,7 +67,7 @@ namespace Gameplay.MovementSystem
             {
                 GridCell cell = _gridManager.GetCellFromTapPosition(position);
 
-                if (cell != null && cell.CanAcceptItem())
+                if (cell != null)
                 {
                     if (!_draggedItem.TryPlaceInCell(cell))
                     {

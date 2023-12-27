@@ -1,10 +1,13 @@
+using DG.Tweening;
+using Gameplay.GridSystem;
 using Gameplay.MovementSystem;
 using Gameplay.PlaceableSystem;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Gameplay.MergeableSystem
 {
-    public class MergeableItem : PlaceableItem, IMergeable, IMoveable
+    public class MergeableItem : PlaceableItem, IMergeable, IMoveable, IAnimatedMoveable, IShoveable
     {
         public MergeableDataSO MergeableData { get; set; }
 
@@ -41,6 +44,21 @@ namespace Gameplay.MergeableSystem
             base.SetData(mergeableData);
 
             MergeableData = mergeableData as MergeableDataSO;
+        }
+
+        public void MoveWithAnimation(Vector3 movementVector)
+        {
+            transform.DOMove(movementVector, 0.2f);
+        }
+
+        public void Shove(GridCell cell)
+        {
+            GridCell nearestEmptyCell = GridHelper.FindNearestEmptyCell(cell);
+            if (nearestEmptyCell != null)
+            {
+                TryPlaceInCell(nearestEmptyCell);
+                MoveWithAnimation(nearestEmptyCell.GetWorldPosition());
+            }
         }
     }
 }

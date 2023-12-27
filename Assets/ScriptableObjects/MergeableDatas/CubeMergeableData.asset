@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6794eb0febabf434cb5c27e5ba4a0ac9, type: 3}
   m_Name: CubeMergeableData
   m_EditorClassIdentifier: 
+  PlacementMap:
+  - {x: 0, y: 0}
+  PlacementType: 0
   ItemPrefab: {fileID: 3652176539034846679, guid: 16eab35e69526324daea32b472bd3e32,
     type: 3}
   MergeType: 0
