@@ -1,6 +1,7 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public interface IAnimatedMoveable
 {
-    public void MoveWithAnimation(Vector3 movementVector);
+    public UniTask MoveWithAnimation(Vector3 movementVector);
 }

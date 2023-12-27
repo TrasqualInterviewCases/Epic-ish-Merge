@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Gameplay.GridSystem;
 using Gameplay.ServiceSystem;
 using System.Collections.Generic;
@@ -8,12 +9,21 @@ namespace Gameplay.MergeableSystem
 {
     public static class MergeHandler
     {
-        public static void Merge(GridCell centerCell)
+        public static async void Merge(GridCell centerCell)
         {
             const int ITEM_MAX_LEVEL = 2;
             const int MIN_REQUIRED_TO_MERGE = 3;
 
             List<MergeableItem> mergeables = GridHelper.MergeableItems.OrderBy(x => x.Level).ToList();
+
+            UniTask[] tasks = new UniTask[mergeables.Count];
+
+            for (int i = 0; i < mergeables.Count; i++)
+            {
+                tasks[i] = mergeables[i].MoveWithAnimation(centerCell.GetWorldPosition());
+            }
+
+            await UniTask.WhenAll(tasks);
 
             int itemLevels = mergeables.Select(x => x.Level).Distinct().Count();
 
@@ -32,16 +42,14 @@ namespace Gameplay.MergeableSystem
                         mergeables.Add(higherLevelMergeable);
                     }
 
-                    for (int k = 0; k < sameLevelMergeables.Count; k++)
+                    for (int k = 0; k < amountOfHigherLevelMergeablesToCreate * MIN_REQUIRED_TO_MERGE; k++)
                     {
+                        mergeables.Remove(sameLevelMergeables[k]);
                         sameLevelMergeables[k].Merge();
                     }
-
-                    mergeables.RemoveRange(0, amountOfHigherLevelMergeablesToCreate * MIN_REQUIRED_TO_MERGE);
                 }
             }
 
-            Debug.Log(mergeables.Count);
             for (int l = 0; l < mergeables.Count; l++)
             {
                 mergeables[l].TryPlaceInCell(centerCell);

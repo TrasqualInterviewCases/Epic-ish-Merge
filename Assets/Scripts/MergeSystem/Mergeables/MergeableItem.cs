@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gameplay.GridSystem;
 using Gameplay.MovementSystem;
@@ -50,9 +51,9 @@ namespace Gameplay.MergeableSystem
             MergeableData = mergeableData as MergeableDataSO;
         }
 
-        public void MoveWithAnimation(Vector3 movementVector)
+        public async UniTask MoveWithAnimation(Vector3 movementVector)
         {
-            transform.DOMove(movementVector, 0.2f);
+            await transform.DOMove(movementVector, 0.2f).AsyncWaitForCompletion();
         }
 
         public void Shove(GridCell cell)
@@ -61,7 +62,7 @@ namespace Gameplay.MergeableSystem
             if (nearestEmptyCell != null)
             {
                 TryPlaceInCell(nearestEmptyCell);
-                MoveWithAnimation(nearestEmptyCell.GetWorldPosition());
+                MoveWithAnimation(nearestEmptyCell.GetWorldPosition()).Forget();
             }
         }
     }
