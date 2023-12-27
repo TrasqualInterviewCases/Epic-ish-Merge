@@ -41,9 +41,11 @@ namespace Gameplay.MergeableSystem
                 }
             }
 
+            Debug.Log(mergeables.Count);
             for (int l = 0; l < mergeables.Count; l++)
             {
                 mergeables[l].TryPlaceInCell(centerCell);
+                mergeables[l].Move(centerCell.GetWorldPosition());
             }
         }
     }
