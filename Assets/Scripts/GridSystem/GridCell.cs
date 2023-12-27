@@ -219,7 +219,12 @@ namespace Gameplay.GridSystem
             return null;
         }
 
-        public void FindMergeableCells(MergeableType mergeType, List<GridCell> searchedCells, List<GridCell> mergeableCells)
+        public MergeableItem GetMergeableItem()
+        {
+            return _items.FirstOrDefault(x => x is MergeableItem) as MergeableItem;
+        }
+
+        public void FindMergeableCells(MergeableType mergeType, List<GridCell> searchedCells, List<MergeableItem> mergeableItems)
         {
             if (searchedCells.Contains(this))
             {
@@ -230,14 +235,14 @@ namespace Gameplay.GridSystem
 
             if (HasSameTypeMergeable(mergeType))
             {
-                if (!mergeableCells.Contains(this))
+                if (!mergeableItems.Contains(GetMergeableItem()))
                 {
-                    mergeableCells.Add(this);
+                    mergeableItems.Add(GetMergeableItem());
                 }
 
                 foreach (GridCell neighbourCell in _neighbours.Values)
                 {
-                    neighbourCell.FindMergeableCells(mergeType, searchedCells, mergeableCells);
+                    neighbourCell.FindMergeableCells(mergeType, searchedCells, mergeableItems);
                 }
             }
         }

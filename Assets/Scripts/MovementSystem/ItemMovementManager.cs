@@ -1,5 +1,6 @@
 using Gameplay.GridSystem;
 using Gameplay.InputSystem;
+using Gameplay.MergeableSystem;
 using Gameplay.PlaceableSystem;
 using Gameplay.ServiceSystem;
 using UnityEngine;
@@ -72,6 +73,13 @@ namespace Gameplay.MovementSystem
                     if (!_draggedItem.TryPlaceInCell(cell))
                     {
                         ((IMoveable)_draggedItem).Move(_draggedItem.LastKnownPosition);
+                    }
+                    else
+                    {
+                        if (GridHelper.CanMerge(cell))
+                        {
+                            MergeHandler.Merge(cell);
+                        }
                     }
                     _draggedItem = null;
                 }

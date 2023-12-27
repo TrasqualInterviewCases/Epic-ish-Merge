@@ -1,4 +1,5 @@
 using Gameplay.GridSystem;
+using Gameplay.MergeableSystem;
 using Gameplay.ServiceSystem;
 using System;
 using System.Collections.Generic;
@@ -33,17 +34,7 @@ namespace Gameplay.PlaceableSystem
         {
             if (_gridManager.TryPlaceItemWithInput(this, cell, OccupiedCells))
             {
-                if (LastPlacedInCell != null)
-                {
-                    if (LastOccupiedCells != null && LastOccupiedCells.Count > 0)
-                    {
-                        for (int i = 0; i < LastOccupiedCells.Count; i++)
-                        {
-                            LastOccupiedCells[i].TryRemoveItem(this);
-                            _gridManager.ReportCellWasEmptied();
-                        }
-                    }
-                }
+                ReleasePreviousCells();
 
                 LastPlacedInCell = cell;
                 LastOccupiedCells = new List<GridCell>(OccupiedCells);
@@ -55,6 +46,21 @@ namespace Gameplay.PlaceableSystem
             else
             {
                 return false;
+            }
+        }
+
+        protected void ReleasePreviousCells()
+        {
+            if (LastPlacedInCell != null)
+            {
+                if (LastOccupiedCells != null && LastOccupiedCells.Count > 0)
+                {
+                    for (int i = 0; i < LastOccupiedCells.Count; i++)
+                    {
+                        LastOccupiedCells[i].TryRemoveItem(this);
+                        _gridManager.ReportCellWasEmptied();
+                    }
+                }
             }
         }
 

@@ -23,10 +23,14 @@ namespace Gameplay.MergeableSystem
 
         public void ResetItem()
         {
+            ReleasePreviousCells();
             Destroy(_visual.gameObject);
             _visual = null;
             MergeableData = null;
             Data = null;
+
+            //change with pool
+            Destroy(gameObject);
         }
 
         public void Merge()

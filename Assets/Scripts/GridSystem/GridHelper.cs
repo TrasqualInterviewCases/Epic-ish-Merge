@@ -1,36 +1,52 @@
 using Gameplay.GridSystem;
-using Gameplay.PlaceableSystem;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Gameplay.MergeableSystem
 {
     public static class GridHelper
     {
-        public static List<GridCell> _searchedCells = new List<GridCell>();
-        public static List<GridCell> _mergeableCells = new List<GridCell>();
+        public static List<GridCell> SearchedCells = new List<GridCell>();
+        public static List<MergeableItem> MergeableItems = new List<MergeableItem>();
 
         public static bool CanMerge(GridCell cell)
         {
-            _searchedCells.Clear();
-            _mergeableCells.Clear();
+            const int MAX_LEVEL = 2;
+            const int MIN_REQUIERED = 3;
 
-            if (cell.TryGetItem(out PlaceableItem placeable))
+            SearchedCells.Clear();
+            MergeableItems.Clear();
+
+            MergeableItem mergeable = cell.GetMergeableItem();
+
+            if (mergeable != null)
             {
-                if (placeable is MergeableItem mergeable)
+                cell.FindMergeableCells(mergeable.MergeType, SearchedCells, MergeableItems);
+            }
+
+            if (MergeableItems.Count < MIN_REQUIERED)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < MAX_LEVEL - 1; i++)
+            {
+                if (MergeableItems.FindAll(x => x.Level == i).Count() > 0)
                 {
-                    cell.FindMergeableCells(mergeable.MergeableData.MergeType, _searchedCells, _mergeableCells);
+                    return true;
                 }
             }
 
-            return _mergeableCells.Count >= 3;
+
+            return false;
         }
 
 
         public static GridCell FindNearestEmptyCell(GridCell cell)
         {
-            _searchedCells.Clear();
+            SearchedCells.Clear();
 
-            return cell.FindNearestEmptyCell(_searchedCells);
+            return cell.FindNearestEmptyCell(SearchedCells);
         }
     }
 }
