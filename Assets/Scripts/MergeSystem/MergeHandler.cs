@@ -29,6 +29,8 @@ namespace Gameplay.MergeableSystem
 
             await UniTask.WhenAll(tasks);
 
+            await UniTask.Delay(150);
+
             int itemLevels = mergeables.Select(x => x.Level).Distinct().Count();
 
             for (int i = 0; i < MAX_ITEM_LEVEL; i++)

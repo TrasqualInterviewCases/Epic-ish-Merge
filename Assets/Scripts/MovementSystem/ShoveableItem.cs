@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Gameplay.GridSystem;
 using Gameplay.MergeableSystem;
+using Gameplay.ServiceSystem;
 using System;
 
 namespace Gameplay.MovementSystem
@@ -23,6 +24,24 @@ namespace Gameplay.MovementSystem
                 {
                     _mergeable.MoveWithAnimation(nearestEmptyCell.GetWorldPosition()).Forget();
                 }
+                else
+                {
+                    PlaceMergeable();
+                }
+            }
+        }
+
+        private void PlaceMergeable()
+        {
+            var availableCell = ServiceProvider.Instance.GridManager.GetRandomAvailableCell();
+
+            if (_mergeable.TryPlaceInCell(availableCell))
+            {
+                _mergeable.MoveWithAnimation(availableCell.GetWorldPosition()).Forget();
+            }
+            else
+            {
+                PlaceMergeable();
             }
         }
 
