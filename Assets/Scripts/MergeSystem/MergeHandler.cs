@@ -30,7 +30,7 @@ namespace Gameplay.MergeableSystem
 
             int itemLevels = mergeables.Select(x => x.Level).Distinct().Count();
 
-            for (int i = 0; i < ITEM_MAX_LEVEL - 1; i++)
+            for (int i = 0; i < ITEM_MAX_LEVEL; i++)
             {
                 List<MergeableItem> sameLevelMergeables = mergeables.FindAll(x => x.Level == i).ToList();
 

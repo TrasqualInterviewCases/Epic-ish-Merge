@@ -29,7 +29,7 @@ namespace Gameplay.MergeableSystem
                 return false;
             }
 
-            for (int i = 0; i < MAX_LEVEL - 1; i++)
+            for (int i = 0; i < MAX_LEVEL; i++)
             {
                 if (MergeableItems.FindAll(x => x.Level == i).Count() >= MIN_REQUIERED)
                 {
