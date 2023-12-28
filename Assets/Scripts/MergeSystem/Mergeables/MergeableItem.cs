@@ -4,7 +4,6 @@ using Gameplay.CollectableSystem;
 using Gameplay.GameData;
 using Gameplay.MovementSystem;
 using Gameplay.PlaceableSystem;
-using System;
 using UnityEngine;
 
 namespace Gameplay.MergeableSystem
@@ -26,7 +25,6 @@ namespace Gameplay.MergeableSystem
 
         public IShoveable Shoveable { get; private set; }
         public ICollectable Collectable { get; private set; }
-
 
         public async void Init(AddressablePool mergeablePool, AddressablePool visualPool)
         {

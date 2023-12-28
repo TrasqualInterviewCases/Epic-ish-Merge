@@ -19,8 +19,10 @@ namespace Gameplay.MovementSystem
             GridCell nearestEmptyCell = GridHelper.FindNearestEmptyCell(cell);
             if (nearestEmptyCell != null)
             {
-                _mergeable.TryPlaceInCell(nearestEmptyCell);
-                _mergeable.MoveWithAnimation(nearestEmptyCell.GetWorldPosition()).Forget();
+                if (_mergeable.TryPlaceInCell(nearestEmptyCell))
+                {
+                    _mergeable.MoveWithAnimation(nearestEmptyCell.GetWorldPosition()).Forget();
+                }
             }
         }
 
