@@ -89,6 +89,10 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/UI/ProgressBar.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 5cb682666dcaa814c8425c81c4bf7e81
+    m_Address: Assets/Prefabs/UI/CollectionAnimationVisual.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 42fd04e8de1012f40b9f97399419a2dd, type: 2}
   m_SchemaSet:

@@ -16,4 +16,9 @@ namespace Utilities.Events
     {
 
     }
+
+    public class TasksCompletedEvent
+    {
+
+    }
 }

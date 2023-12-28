@@ -15,6 +15,7 @@ namespace Gameplay.ServiceSystem
         [field: SerializeField] public MergeableFactory MergeableFactory { get; private set; }
         [field: SerializeField] public ItemMovementManager ItemMovementManager { get; private set; }
         [field: SerializeField] public AddressablePoolManager AddressablePoolManager { get; private set; }
+        [field: SerializeField] public TaskManager TaskManager { get; private set; }
 
         [field: Space(10)]
         [field: Header("UI")]

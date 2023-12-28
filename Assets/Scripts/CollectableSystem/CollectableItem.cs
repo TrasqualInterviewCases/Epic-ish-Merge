@@ -8,6 +8,7 @@ namespace Gameplay.CollectableSystem
     public class CollectableItem : ICollectable, IDisposable
     {
         public static Action<CollectableItem> OnCollectionStarted;
+        public static Action<CollectableItem> OnCollectionEnded;
 
         private MergeableItem _mergeable;
 
@@ -42,6 +43,8 @@ namespace Gameplay.CollectableSystem
 
         public void FinishCollecting()
         {
+            OnCollectionEnded?.Invoke(this);
+
             _mergeable.ResetItem();
         }
 
