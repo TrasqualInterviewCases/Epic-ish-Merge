@@ -51,8 +51,6 @@ public class CollectionAnimationVisual : MonoBehaviour
 
     private void ResetVisual()
     {
-        Debug.Log("Reseting visual");
-
         ServiceProvider.Instance.TaskManager.TaskItemCollected();
 
         _target.TargetReached();

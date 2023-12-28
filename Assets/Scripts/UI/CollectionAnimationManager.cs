@@ -42,7 +42,7 @@ public class CollectionAnimationManager : MonoBehaviour
 
     private void UnsubscribeToEvents()
     {
-        CollectableItem.OnCollectionEnded += OnCollectionEnded;
+        CollectableItem.OnCollectionEnded -= OnCollectionEnded;
     }
 
     private void OnDestroy()

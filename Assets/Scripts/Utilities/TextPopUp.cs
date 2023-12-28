@@ -17,8 +17,10 @@ public class TextPopUp : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void PlayText(string text, Vector3 worldPosition, AddressablePool pool, Transform parent)
+    public void PlayText(string text, Vector3 worldPosition, AddressablePool pool, Transform parent, float duration = 1.5f, float size = 1f)
     {
+        transform.localScale = Vector3.one * size;
+
         _pool = pool;
 
         transform.SetParent(parent);
@@ -30,15 +32,16 @@ public class TextPopUp : MonoBehaviour
         _text.SetText(text);
 
         Sequence s = DOTween.Sequence();
-        s.Append(_text.transform.DOLocalMoveY(3f, 1.5f));
+        s.Append(_text.transform.DOLocalMoveY(3f, duration));
         s.Join(_text.DOFade(1f, 0.5f));
-        s.Insert(1f, _text.DOFade(0f, 0.5f));
+        s.Insert(duration * 0.85f, _text.DOFade(0f, 0.5f));
 
         s.OnComplete(ResetText);
     }
 
     private void ResetText()
     {
+        transform.localScale = Vector3.one;
         transform.SetParent(_pool.transform);
         _text.SetText("");
         _text.transform.localPosition = Vector3.zero;
