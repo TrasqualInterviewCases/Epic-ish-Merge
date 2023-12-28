@@ -27,7 +27,7 @@ namespace Gameplay.MergeableSystem
 
             _visual = await visualPool.GetItem();
             _visual.transform.SetParent(transform);
-            _visualPool.transform.localPosition = Vector3.zero;
+            _visual.transform.localPosition = Vector3.zero;
         }
 
         public void ResetItem()
