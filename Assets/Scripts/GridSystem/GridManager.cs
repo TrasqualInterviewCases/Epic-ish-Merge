@@ -94,15 +94,9 @@ namespace Gameplay.GridSystem
 
         public bool CanCellAtIndexAcceptItem(Vector2Int cellIndex)
         {
-            if (!IsIndexWithinGrid(cellIndex))
-            {
-                return false;
-            }
 
-            if (Cells[cellIndex.x, cellIndex.y].CanAcceptItem())
-            {
-                return true;
-            }
+
+
 
             return false;
         }
@@ -147,12 +141,25 @@ namespace Gameplay.GridSystem
             {
                 Vector2Int testedCellIndex = cell.Index + item.Data.PlacementMap[i];
 
-                if (!CanCellAtIndexAcceptItem(testedCellIndex))
+                if (!IsIndexWithinGrid(testedCellIndex))
                 {
                     return false;
                 }
 
                 GridCell testedCell = Cells[testedCellIndex.x, testedCellIndex.y];
+
+                if (testedCell.TryGetItem(out PlaceableItem currentItem))
+                {
+                    if (currentItem.gameObject == item.gameObject)
+                    {
+                        continue;
+                    }
+                }
+
+                if (!testedCell.CanAcceptItem())
+                {
+                    return false;
+                }
 
 
                 if (testedCell.IsEmpty())

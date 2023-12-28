@@ -33,9 +33,9 @@ namespace Gameplay.PlaceableSystem
             LastKnownPosition = transform.position;
         }
 
-        public virtual bool TryPlaceInCell(GridCell cell)
+        public bool TryPlaceInCell(GridCell cell)
         {
-            if (cell != LastPlacedInCell && _gridManager.TryPlaceItemWithInput(this, cell, OccupiedCells))
+            if (_gridManager.TryPlaceItemWithInput(this, cell, OccupiedCells))
             {
                 ReleasePreviousCells();
 

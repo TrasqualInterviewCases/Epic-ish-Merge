@@ -83,20 +83,25 @@ namespace Gameplay.MovementSystem
                             MergeHandler.Merge(cell);
                         }
                     }
-                    _draggedItem = null;
+                    OnDraggedItemReset(null);
                 }
                 else
                 {
                     ServiceProvider.Instance.TextPopUpManager.GetTextPopUp("Can't place there.", _draggedItem.transform.position);
 
                     ((IMoveable)_draggedItem).Move(_draggedItem.LastKnownPosition);
-                    _draggedItem = null;
+                    OnDraggedItemReset(null);
                 }
             }
         }
 
         private void OnDraggedItemReset(PlaceableItem item)
         {
+            if (_draggedItem == null)
+            {
+                return;
+            }
+
             _draggedItem.OnItemReset -= OnDraggedItemReset;
             _draggedItem = null;
         }
