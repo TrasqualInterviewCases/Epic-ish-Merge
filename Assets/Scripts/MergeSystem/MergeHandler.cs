@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Gameplay.GameData;
 using Gameplay.GridSystem;
 using Gameplay.ServiceSystem;
 using System.Collections.Generic;
@@ -14,8 +15,8 @@ namespace Gameplay.MergeableSystem
         {
             EventManager.Instance.TriggerEvent<MergeStartedEvent>();
 
-            const int ITEM_MAX_LEVEL = 2;
-            const int MIN_REQUIRED_TO_MERGE = 3;
+            const int MAX_ITEM_LEVEL = StaticGameData.MAX_ITEM_LEVEL;
+            const int MIN_ITEM_TO_MERGE = StaticGameData.MIN_ITEM_TO_MERGE;
 
             List<MergeableItem> mergeables = GridHelper.MergeableItems.OrderBy(x => x.Level).ToList();
 
@@ -30,13 +31,13 @@ namespace Gameplay.MergeableSystem
 
             int itemLevels = mergeables.Select(x => x.Level).Distinct().Count();
 
-            for (int i = 0; i < ITEM_MAX_LEVEL; i++)
+            for (int i = 0; i < MAX_ITEM_LEVEL; i++)
             {
                 List<MergeableItem> sameLevelMergeables = mergeables.FindAll(x => x.Level == i).ToList();
 
-                if (sameLevelMergeables.Count >= MIN_REQUIRED_TO_MERGE)
+                if (sameLevelMergeables.Count >= MIN_ITEM_TO_MERGE)
                 {
-                    int amountOfHigherLevelMergeablesToCreate = Mathf.FloorToInt(sameLevelMergeables.Count / MIN_REQUIRED_TO_MERGE);
+                    int amountOfHigherLevelMergeablesToCreate = Mathf.FloorToInt(sameLevelMergeables.Count / MIN_ITEM_TO_MERGE);
 
                     for (int j = 0; j < amountOfHigherLevelMergeablesToCreate; j++)
                     {
@@ -45,7 +46,7 @@ namespace Gameplay.MergeableSystem
                         mergeables.Add(higherLevelMergeable);
                     }
 
-                    for (int k = 0; k < amountOfHigherLevelMergeablesToCreate * MIN_REQUIRED_TO_MERGE; k++)
+                    for (int k = 0; k < amountOfHigherLevelMergeablesToCreate * MIN_ITEM_TO_MERGE; k++)
                     {
                         mergeables.Remove(sameLevelMergeables[k]);
                         sameLevelMergeables[k].Merge();

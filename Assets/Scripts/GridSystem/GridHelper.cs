@@ -1,3 +1,4 @@
+using Gameplay.GameData;
 using Gameplay.GridSystem;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace Gameplay.MergeableSystem
 
         public static bool CanMerge(GridCell cell)
         {
-            const int MAX_LEVEL = 2;
-            const int MIN_REQUIERED = 3;
+            const int MAX_ITEM_LEVEL = StaticGameData.MAX_ITEM_LEVEL;
+            const int MIN_ITEM_TO_MERGE = StaticGameData.MIN_ITEM_TO_MERGE;
 
             SearchedCells.Clear();
             MergeableItems.Clear();
@@ -24,14 +25,14 @@ namespace Gameplay.MergeableSystem
                 cell.FindMergeableCells(mergeable.MergeType, SearchedCells, MergeableItems);
             }
 
-            if (MergeableItems.Count < MIN_REQUIERED)
+            if (MergeableItems.Count < MIN_ITEM_TO_MERGE)
             {
                 return false;
             }
 
-            for (int i = 0; i < MAX_LEVEL; i++)
+            for (int i = 0; i < MAX_ITEM_LEVEL; i++)
             {
-                if (MergeableItems.FindAll(x => x.Level == i).Count() >= MIN_REQUIERED)
+                if (MergeableItems.FindAll(x => x.Level == i).Count() >= MIN_ITEM_TO_MERGE)
                 {
                     return true;
                 }
