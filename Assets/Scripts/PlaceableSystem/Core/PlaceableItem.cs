@@ -10,6 +10,7 @@ namespace Gameplay.PlaceableSystem
     public abstract class PlaceableItem : MonoBehaviour
     {
         public Action<PlaceableItem> OnPlacedInCell;
+        public Action<PlaceableItem> OnItemReset;
 
         public PlaceableItemDataSO Data { get; protected set; }
 
@@ -71,6 +72,11 @@ namespace Gameplay.PlaceableSystem
         public virtual void SetData(PlaceableItemDataSO placeableItemData)
         {
             Data = placeableItemData;
+        }
+
+        public virtual void ResetItem()
+        {
+            OnItemReset?.Invoke(this);
         }
     }
 }

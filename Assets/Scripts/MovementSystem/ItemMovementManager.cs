@@ -39,6 +39,7 @@ namespace Gameplay.MovementSystem
                 if (item is IMoveable)
                 {
                     _draggedItem = item;
+                    _draggedItem.OnItemReset += OnDraggedItemReset;
                 }
             }
         }
@@ -72,6 +73,7 @@ namespace Gameplay.MovementSystem
                 {
                     if (!_draggedItem.TryPlaceInCell(cell))
                     {
+                        ServiceProvider.Instance.TextPopUpManager.GetTextPopUp("Can't place there.", _draggedItem.transform.position);
                         ((IMoveable)_draggedItem).Move(_draggedItem.LastKnownPosition);
                     }
                     else
@@ -85,10 +87,18 @@ namespace Gameplay.MovementSystem
                 }
                 else
                 {
+                    ServiceProvider.Instance.TextPopUpManager.GetTextPopUp("Can't place there.", _draggedItem.transform.position);
+
                     ((IMoveable)_draggedItem).Move(_draggedItem.LastKnownPosition);
                     _draggedItem = null;
                 }
             }
+        }
+
+        private void OnDraggedItemReset(PlaceableItem item)
+        {
+            _draggedItem.OnItemReset -= OnDraggedItemReset;
+            _draggedItem = null;
         }
 
         public bool IsPointerOverPlaceable(Vector3 position)

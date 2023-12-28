@@ -81,6 +81,14 @@ MonoBehaviour:
       2.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: c52b402774cb3214b8438ba68547ec51
+    m_Address: Assets/Prefabs/UI/TextPopUp.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 859fe7b5ab6ca3f41a350afa6aa25e32
+    m_Address: Assets/Prefabs/UI/ProgressBar.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 42fd04e8de1012f40b9f97399419a2dd, type: 2}
   m_SchemaSet:

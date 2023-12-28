@@ -41,7 +41,7 @@ namespace Gameplay.LevelManagement
                 MergeableItem mergeable = await ServiceProvider.Instance.MergeableFactory.GetRandomMergeable(0);
 
                 mergeable.OnPlacedInCell += OnPlaceInCell;
-                mergeable.OnMergeableReset += OnMergeableReset;
+                mergeable.OnItemReset += OnMergeableReset;
 
                 if (mergeable.TryPlaceInCell(cell))
                 {
@@ -50,7 +50,7 @@ namespace Gameplay.LevelManagement
                 else
                 {
                     mergeable.OnPlacedInCell -= OnPlaceInCell;
-                    mergeable.OnMergeableReset -= OnMergeableReset;
+                    mergeable.OnItemReset -= OnMergeableReset;
                 }
             }
         }
@@ -61,12 +61,12 @@ namespace Gameplay.LevelManagement
             AdjustMergeableCount(mergeable.MergeableData.MergeType, 1);
         }
 
-        private void OnMergeableReset(MergeableItem item)
+        private void OnMergeableReset(PlaceableItem item)
         {
-            AdjustMergeableCount(item.MergeableData.MergeType, -1);
+            AdjustMergeableCount(((MergeableItem)item).MergeableData.MergeType, -1);
 
             item.OnPlacedInCell -= OnPlaceInCell;
-            item.OnMergeableReset -= OnMergeableReset;
+            item.OnItemReset -= OnMergeableReset;
 
             GenerateNewMergeable();
         }
@@ -94,7 +94,7 @@ namespace Gameplay.LevelManagement
             MergeableItem mergeable = await ServiceProvider.Instance.MergeableFactory.GetRandomMergeable(0);
 
             mergeable.OnPlacedInCell += OnPlaceInCell;
-            mergeable.OnMergeableReset += OnMergeableReset;
+            mergeable.OnItemReset += OnMergeableReset;
 
             if (mergeable.TryPlaceInCell(cell))
             {
@@ -103,7 +103,7 @@ namespace Gameplay.LevelManagement
             else
             {
                 mergeable.OnPlacedInCell -= OnPlaceInCell;
-                mergeable.OnMergeableReset -= OnMergeableReset;
+                mergeable.OnItemReset -= OnMergeableReset;
             }
         }
 

@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Gameplay.CollectableSystem;
+using Gameplay.GameData;
 using Gameplay.MovementSystem;
 using Gameplay.PlaceableSystem;
 using System;
@@ -9,8 +11,6 @@ namespace Gameplay.MergeableSystem
 {
     public class MergeableItem : PlaceableItem, IMergeable, IMoveable, IAnimatedMoveable
     {
-        public Action<MergeableItem> OnMergeableReset;
-
         public MergeableDataSO MergeableData { get; set; }
 
         public MergeableType MergeType => MergeableData.MergeType;
@@ -19,10 +19,14 @@ namespace Gameplay.MergeableSystem
 
         private GameObject _visual;
 
+        public Transform VisualTransform => _visual.transform;
+
         private AddressablePool _mergeablePool;
         private AddressablePool _visualPool;
 
         public IShoveable Shoveable { get; private set; }
+        public ICollectable Collectable { get; private set; }
+
 
         public async void Init(AddressablePool mergeablePool, AddressablePool visualPool)
         {
@@ -41,24 +45,26 @@ namespace Gameplay.MergeableSystem
 
             _visual.transform.localPosition = new Vector3(centerPos.x, 0f, centerPos.y) * _gridManager.CellSize;
 
-            if (MergeableData.Level < 2)
+            if (MergeableData.Level < StaticGameData.MAX_ITEM_LEVEL)
             {
-                Shoveable = gameObject.AddComponent<ShoveableItem>();
-
-                Shoveable.Initialize(this);
+                Shoveable = new ShoveableItem(this);
+            }
+            else
+            {
+                Collectable = new CollectableItem(this);
             }
         }
 
-        public void ResetItem()
+        public override void ResetItem()
         {
-            OnMergeableReset?.Invoke(this);
+            base.ResetItem();
 
             ReleasePreviousCells();
 
             _visualPool.ReturnItem(_visual);
 
-            Destroy(Shoveable as ShoveableItem);
             Shoveable = null;
+            Collectable = null;
 
             _visual = null;
             MergeableData = null;

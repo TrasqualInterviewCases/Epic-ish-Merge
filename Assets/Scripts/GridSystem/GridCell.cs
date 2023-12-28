@@ -191,10 +191,16 @@ namespace Gameplay.GridSystem
 
         public void SelectCell(Vector3 tapPosition)
         {
-            //if (_gridManager.GetCellFromTapPosition(tapPosition) == this)
-            //{
-            //    Debug.Log(GetPlacedItem());
-            //}
+            if (_gridManager.GetCellFromTapPosition(tapPosition) == this)
+            {
+                if (TryGetItem(out PlaceableItem item))
+                {
+                    if (item is MergeableItem mergeable && mergeable.Collectable != null)
+                    {
+                        mergeable.Collectable.StartCollecting();
+                    }
+                }
+            }
         }
 
         public GridCell FindNearestEmptyCell(List<GridCell> searchedCells)

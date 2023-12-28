@@ -59,6 +59,10 @@ namespace Gameplay.MergeableSystem
                 if (mergeables[l].TryPlaceInCell(centerCell))
                 {
                     mergeables[l].Move(centerCell.GetWorldPosition());
+                    if (mergeables[l].Level >= MAX_ITEM_LEVEL)
+                    {
+                        ServiceProvider.Instance.TextPopUpManager.GetTextPopUp("Click To Collect", mergeables[l].transform.position);
+                    }
                 }
                 else
                 {
@@ -78,6 +82,10 @@ namespace Gameplay.MergeableSystem
             if (mergeable.TryPlaceInCell(availableCell))
             {
                 mergeable.Move(availableCell.GetWorldPosition());
+                if (mergeable.Level >= StaticGameData.MAX_ITEM_LEVEL)
+                {
+                    ServiceProvider.Instance.TextPopUpManager.GetTextPopUp("Click To Collect", mergeable.transform.position);
+                }
             }
             else
             {

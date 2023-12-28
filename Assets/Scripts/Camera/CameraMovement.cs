@@ -57,9 +57,31 @@ namespace Gameplay.CameraUtilities
 
         private void OnTapMoved(Vector3 currentPosition)
         {
+
+
             if (_itemMovementManager.IsMovingItem())
             {
-                //MoveCamera if the pointer is on the edge of the screen
+                float maxHorizontalDistance = (Screen.width / 2f) * 0.95f;
+                float maxVerticalDistance = (Screen.height / 2f) * 0.95f;
+
+                Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 1f);
+
+                Vector3 direction = currentPosition - screenCenter;
+
+                Vector3 movementVector = Vector3.zero;
+
+                if (Mathf.Abs(direction.x) >= maxHorizontalDistance)
+                {
+                    movementVector += new Vector3(direction.x, 0f, 0f);
+                }
+                if (Mathf.Abs(direction.y) >= maxVerticalDistance)
+                {
+                    movementVector += new Vector3(0f, 0f, direction.y);
+                }
+
+                movementVector = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * movementVector;
+
+                transform.position += _camMovementSpeed * Time.deltaTime * movementVector.normalized;
             }
             else
             {
