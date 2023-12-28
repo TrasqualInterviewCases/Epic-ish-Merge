@@ -134,7 +134,7 @@ namespace Gameplay.GridSystem
         {
             if (TryGetItem(out PlaceableItem currentItem))
             {
-                if (currentItem != item)
+                if (currentItem.gameObject != item.gameObject)
                 {
                     if (currentItem is MergeableItem mergeable && mergeable.Shoveable != null)
                     {
