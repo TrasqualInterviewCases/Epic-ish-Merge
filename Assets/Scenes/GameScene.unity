@@ -237,8 +237,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camMovementSpeed: 8
-  _camZoomSpeed: 10
-  _camZoomAmount: 25
+  _camZoomSpeed: 20
+  _camZoomAmount: 50
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,6 +803,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 88340e2e2d387c34c942a2cbe7502f20, type: 2}
   - {fileID: 11400000, guid: 2f221c39b0067294c972806c21b2d26d, type: 2}
   - {fileID: 11400000, guid: ba91733edb0bda148a5dc19f317b0eb2, type: 2}
+  - {fileID: 11400000, guid: 776f23ba417c33d479c96848407f1717, type: 2}
+  - {fileID: 11400000, guid: 0ce537658c5578647813be70715ea2d1, type: 2}
+  - {fileID: 11400000, guid: 15eefd44a0ace8841b1758dbe0c06c07, type: 2}
+  - {fileID: 11400000, guid: 7552d4805e642484da8ba5ae169561a4, type: 2}
 --- !u!4 &1665486642
 Transform:
   m_ObjectHideFlags: 0

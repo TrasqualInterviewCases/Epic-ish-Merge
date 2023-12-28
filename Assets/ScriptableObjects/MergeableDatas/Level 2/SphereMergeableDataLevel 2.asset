@@ -10,15 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6794eb0febabf434cb5c27e5ba4a0ac9, type: 3}
-  m_Name: SphereMergeableData
+  m_Name: SphereMergeableDataLevel 2
   m_EditorClassIdentifier: 
   PlacementMap:
   - {x: 0, y: 0}
+  - {x: 0, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 0}
   PlacementType: 0
   ItemPrefab:
-    m_AssetGUID: 3b3e420b95a76d849a12c0b33dac5dd6
+    m_AssetGUID: d9e58fe1942a82f4aa64ef576fd9319d
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   MergeType: 1
-  Level: 1
+  Level: 2

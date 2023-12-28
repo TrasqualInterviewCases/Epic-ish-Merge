@@ -31,7 +31,7 @@ namespace Gameplay.MergeableSystem
 
             for (int i = 0; i < MAX_LEVEL - 1; i++)
             {
-                if (MergeableItems.FindAll(x => x.Level == i).Count() > 0)
+                if (MergeableItems.FindAll(x => x.Level == i).Count() >= MIN_REQUIERED)
                 {
                     return true;
                 }

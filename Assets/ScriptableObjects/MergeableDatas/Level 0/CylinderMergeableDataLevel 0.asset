@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6794eb0febabf434cb5c27e5ba4a0ac9, type: 3}
-  m_Name: SphereMergeableData
+  m_Name: CylinderMergeableDataLevel 0
   m_EditorClassIdentifier: 
   PlacementMap:
   - {x: 0, y: 0}
   PlacementType: 0
   ItemPrefab:
-    m_AssetGUID: 9d1e49fdf6e9d7344895b9a8e9464164
+    m_AssetGUID: efb603b2628748f40a3f8f60ba9b258a
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  MergeType: 1
+  MergeType: 3
   Level: 0

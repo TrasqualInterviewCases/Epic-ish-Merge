@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6794eb0febabf434cb5c27e5ba4a0ac9, type: 3}
-  m_Name: CapsuleMergeableData
+  m_Name: CapsuleMergeableDataLevel 1
   m_EditorClassIdentifier: 
   PlacementMap:
   - {x: 0, y: 0}
   PlacementType: 0
   ItemPrefab:
-    m_AssetGUID: 274748cfc702c6d4090c6be908103f38
+    m_AssetGUID: 4f73bfde2b2f554458473afab2f76447
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   MergeType: 2
-  Level: 0
+  Level: 1

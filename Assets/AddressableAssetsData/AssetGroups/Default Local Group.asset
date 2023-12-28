@@ -61,6 +61,26 @@ MonoBehaviour:
       1.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 88dd5e12aed581847bec0d3e88be566f
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 2/CapsuleMergeableVisualPrefab
+      2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a4b824c9abbb1d44bbcd3e7e0c62437d
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 2/CubeMergeableVisualPrefab
+      2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 10a4a27fe9d27cf4d9bb725b5abec5eb
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 2/CylinderMergeableVisualPrefab
+      2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d9e58fe1942a82f4aa64ef576fd9319d
+    m_Address: Assets/Prefabs/MergeableVisuals/Level 2/SphereMergeableVisualPrefab
+      2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 42fd04e8de1012f40b9f97399419a2dd, type: 2}
   m_SchemaSet:
