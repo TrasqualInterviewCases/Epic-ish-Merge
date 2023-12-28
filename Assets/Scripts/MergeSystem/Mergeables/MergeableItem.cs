@@ -3,12 +3,15 @@ using DG.Tweening;
 using Gameplay.GridSystem;
 using Gameplay.MovementSystem;
 using Gameplay.PlaceableSystem;
+using System;
 using UnityEngine;
 
 namespace Gameplay.MergeableSystem
 {
     public class MergeableItem : PlaceableItem, IMergeable, IMoveable, IAnimatedMoveable, IShoveable
     {
+        public Action<MergeableItem> OnMergeableReset;
+
         public MergeableDataSO MergeableData { get; set; }
 
         public MergeableType MergeType => MergeableData.MergeType;
@@ -32,6 +35,8 @@ namespace Gameplay.MergeableSystem
 
         public void ResetItem()
         {
+            OnMergeableReset?.Invoke(this);
+
             ReleasePreviousCells();
 
             _visualPool.ReturnItem(_visual);

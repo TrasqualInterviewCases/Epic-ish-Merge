@@ -1,10 +1,7 @@
-using Gameplay.MergeableSystem;
 using Gameplay.PlaceableSystem;
 using Gameplay.ServiceSystem;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Utilities.Events;
 
 namespace Gameplay.GridSystem
@@ -27,8 +24,6 @@ namespace Gameplay.GridSystem
         public Plane Plane;
 
         private Column[] _columns;
-
-        private List<GridCell> _searchedNeighbours = new();
 
         private Camera _cam;
 

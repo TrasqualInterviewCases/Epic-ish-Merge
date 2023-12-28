@@ -9,6 +9,8 @@ namespace Gameplay.PlaceableSystem
 {
     public abstract class PlaceableItem : MonoBehaviour
     {
+        public Action<PlaceableItem> OnPlacedInCell;
+
         public PlaceableItemDataSO Data { get; protected set; }
 
         public Vector3 LastKnownPosition { get; protected set; }
@@ -30,7 +32,7 @@ namespace Gameplay.PlaceableSystem
             LastKnownPosition = transform.position;
         }
 
-        public bool TryPlaceInCell(GridCell cell)
+        public virtual bool TryPlaceInCell(GridCell cell)
         {
             if (cell != LastPlacedInCell && _gridManager.TryPlaceItemWithInput(this, cell, OccupiedCells))
             {
@@ -40,6 +42,8 @@ namespace Gameplay.PlaceableSystem
                 LastOccupiedCells = new List<GridCell>(OccupiedCells);
 
                 LastKnownPosition = LastPlacedInCell.GetWorldPosition();
+
+                OnPlacedInCell?.Invoke(this);
 
                 return true;
             }
