@@ -109,7 +109,7 @@ namespace Gameplay.GridSystem
 
         public bool IsIndexWithinGrid(Vector2 cellIndex)
         {
-            if (cellIndex.x > 0 && cellIndex.x < Width && cellIndex.y > 0 && cellIndex.y < Height)
+            if (cellIndex.x >= 0 && cellIndex.x < Width && cellIndex.y >= 0 && cellIndex.y < Height)
             {
                 return true;
             }
@@ -146,7 +146,14 @@ namespace Gameplay.GridSystem
             for (int i = 0; i < item.Data.PlacementMap.Count; i++)
             {
                 Vector2Int testedCellIndex = cell.Index + item.Data.PlacementMap[i];
+
+                if (!CanCellAtIndexAcceptItem(testedCellIndex))
+                {
+                    return false;
+                }
+
                 GridCell testedCell = Cells[testedCellIndex.x, testedCellIndex.y];
+
 
                 if (testedCell.IsEmpty())
                 {
@@ -180,6 +187,22 @@ namespace Gameplay.GridSystem
             else
             {
                 return GetRandomActiveCell();
+            }
+        }
+
+        public GridCell GetRandomAvailableCell()
+        {
+            int randX = Random.Range(0, Width);
+            int randY = Random.Range(0, Height);
+
+            GridCell randomCell = Cells[randX, randY];
+            if (randomCell.CanAcceptItem())
+            {
+                return randomCell;
+            }
+            else
+            {
+                return GetRandomAvailableCell();
             }
         }
 

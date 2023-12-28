@@ -1,6 +1,11 @@
 using Gameplay.GridSystem;
+using Gameplay.MergeableSystem;
 
-public interface IShoveable
+namespace Gameplay.MovementSystem
 {
-    public void Shove(GridCell cell);
+    public interface IShoveable
+    {
+        public void Initialize(MergeableItem mergeable);
+        public void Shove(GridCell cell);
+    }
 }

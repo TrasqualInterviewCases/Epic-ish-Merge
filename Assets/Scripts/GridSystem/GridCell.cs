@@ -104,12 +104,12 @@ namespace Gameplay.GridSystem
 
         public bool CanAcceptItem()
         {
-            return !IsInActive() || HasShovableItem();
+            return !IsInActive() && (IsEmpty() || (!IsEmpty() && HasShovableItem()));
         }
 
         public bool IsInActive()
         {
-            return (State & GridCellState.InActive) == 0;
+            return (State & GridCellState.InActive) == GridCellState.InActive;
         }
 
         public bool IsEmpty()
@@ -121,7 +121,7 @@ namespace Gameplay.GridSystem
         {
             if (TryGetItem(out PlaceableItem currentItem))
             {
-                if (currentItem is IShoveable shoveable)
+                if (currentItem is MergeableItem mergeable && mergeable.Shoveable != null)
                 {
                     return true;
                 }
@@ -134,9 +134,12 @@ namespace Gameplay.GridSystem
         {
             if (TryGetItem(out PlaceableItem currentItem))
             {
-                if (currentItem is IShoveable shoveable)
+                if (currentItem != item)
                 {
-                    shoveable.Shove(this);
+                    if (currentItem is MergeableItem mergeable && mergeable.Shoveable != null)
+                    {
+                        mergeable.Shoveable.Shove(this);
+                    }
                 }
             }
 

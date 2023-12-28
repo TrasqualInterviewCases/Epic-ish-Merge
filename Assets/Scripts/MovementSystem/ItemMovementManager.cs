@@ -49,7 +49,7 @@ namespace Gameplay.MovementSystem
             {
                 GridCell cell = _gridManager.GetCellFromTapPosition(position);
                 Vector3 targetPosition;
-                if (cell != null && (cell.State & GridCellState.InActive) != GridCellState.InActive)
+                if (cell != null && !cell.IsInActive())
                 {
                     targetPosition = cell.GetWorldPosition();
                 }
@@ -68,7 +68,7 @@ namespace Gameplay.MovementSystem
             {
                 GridCell cell = _gridManager.GetCellFromTapPosition(position);
 
-                if (cell != null)
+                if (cell != null && !cell.IsInActive())
                 {
                     if (!_draggedItem.TryPlaceInCell(cell))
                     {

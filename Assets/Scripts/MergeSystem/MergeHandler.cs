@@ -55,11 +55,33 @@ namespace Gameplay.MergeableSystem
 
             for (int l = 0; l < mergeables.Count; l++)
             {
-                mergeables[l].TryPlaceInCell(centerCell);
-                mergeables[l].Move(centerCell.GetWorldPosition());
+                if (mergeables[l].TryPlaceInCell(centerCell))
+                {
+                    mergeables[l].Move(centerCell.GetWorldPosition());
+                }
+                else
+                {
+                    PlaceMergeable(mergeables[l]);
+                }
             }
 
+            await UniTask.Delay(mergeables.Count * 20);
+
             EventManager.Instance.TriggerEvent<MergeEndedEvent>();
+        }
+
+        private static void PlaceMergeable(MergeableItem mergeable)
+        {
+            var availableCell = ServiceProvider.Instance.GridManager.GetRandomAvailableCell();
+
+            if (mergeable.TryPlaceInCell(availableCell))
+            {
+                mergeable.Move(availableCell.GetWorldPosition());
+            }
+            else
+            {
+                PlaceMergeable(mergeable);
+            }
         }
     }
 }
