@@ -78,6 +78,7 @@ namespace Gameplay.MovementSystem
                     }
                     else
                     {
+                        ((IMoveable)_draggedItem).Move(cell.GetWorldPosition());
                         if (GridHelper.CanMerge(cell))
                         {
                             MergeHandler.Merge(cell);

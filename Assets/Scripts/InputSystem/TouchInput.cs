@@ -33,11 +33,11 @@ namespace Gameplay.InputSystem
 
                 float pinchDistance = (firstTouch.position - secondTouch.position).magnitude;
 
-                if (pinchDistance < _previousPinchDistance)
+                if (_previousPinchDistance - pinchDistance >= 2f)
                 {
                     OnScroll?.Invoke(-0.1f);
                 }
-                else if (pinchDistance > _previousPinchDistance)
+                else if (pinchDistance - _previousPinchDistance >= 2f)
                 {
                     OnScroll?.Invoke(0.1f);
                 }

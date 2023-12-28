@@ -10,7 +10,7 @@ namespace Gameplay.InputSystem
 
         private void Awake()
         {
-#if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
+#if (UNITY_IOS || UNITY_ANDROID)
             Input = gameObject.AddComponent<TouchInput>();
 #else
             Input = gameObject.AddComponent<MouseInput>();
