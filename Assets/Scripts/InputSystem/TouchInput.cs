@@ -5,6 +5,8 @@ namespace Gameplay.InputSystem
 {
     public class TouchInput : InputBase
     {
+        private float _previousPinchDistance;
+
         private void Update()
         {
             if (Input.touchCount > 0)
@@ -22,6 +24,25 @@ namespace Gameplay.InputSystem
                 {
                     OnTapUp?.Invoke(new Vector3(firstTouch.position.x, firstTouch.position.y, 1f));
                 }
+            }
+
+            if (Input.touchCount > 1)
+            {
+                Touch firstTouch = Input.GetTouch(0);
+                Touch secondTouch = Input.GetTouch(1);
+
+                float pinchDistance = (firstTouch.position - secondTouch.position).magnitude;
+
+                if (pinchDistance < _previousPinchDistance)
+                {
+                    OnScroll?.Invoke(-0.1f);
+                }
+                else if (pinchDistance > _previousPinchDistance)
+                {
+                    OnScroll?.Invoke(0.1f);
+                }
+
+                _previousPinchDistance = pinchDistance;
             }
         }
 
