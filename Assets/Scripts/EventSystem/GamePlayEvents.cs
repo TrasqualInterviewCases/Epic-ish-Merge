@@ -6,4 +6,14 @@ namespace Utilities.Events
     {
         public GridManager GridManager;
     }
+
+    public class MergeStartedEvent
+    {
+
+    }
+
+    public class MergeEndedEvent
+    {
+
+    }
 }

@@ -4,6 +4,7 @@ using Gameplay.ServiceSystem;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utilities.Events;
 
 namespace Gameplay.MergeableSystem
 {
@@ -11,6 +12,8 @@ namespace Gameplay.MergeableSystem
     {
         public static async void Merge(GridCell centerCell)
         {
+            EventManager.Instance.TriggerEvent<MergeStartedEvent>();
+
             const int ITEM_MAX_LEVEL = 2;
             const int MIN_REQUIRED_TO_MERGE = 3;
 
@@ -55,6 +58,8 @@ namespace Gameplay.MergeableSystem
                 mergeables[l].TryPlaceInCell(centerCell);
                 mergeables[l].Move(centerCell.GetWorldPosition());
             }
+
+            EventManager.Instance.TriggerEvent<MergeEndedEvent>();
         }
     }
 }
