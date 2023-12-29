@@ -72,7 +72,7 @@ namespace Gameplay.MergeableSystem
                 }
             }
 
-            await UniTask.Delay(mergeables.Count * 20);
+            await UniTask.Delay(mergeables.Count * 200);
 
             EventManager.Instance.TriggerEvent<MergeEndedEvent>();
         }
